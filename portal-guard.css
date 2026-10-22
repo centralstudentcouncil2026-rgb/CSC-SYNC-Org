@@ -1,0 +1,8 @@
+.csc-return-guard { display: inline-flex; align-items: center; justify-content: center; gap: 7px; flex-shrink: 0; min-height: 34px; padding: 7px 10px; border: 1px solid #0c16654d; border-radius: 7px; background: #fff3c1; color: #0c1665; font: 700 12px/1.3 Arial, sans-serif; text-decoration: none; white-space: nowrap; }
+.csc-return-guard svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.8; }
+.csc-return-guard:hover { background: #ffe28b; }
+.csc-return-guard:focus-visible { outline: 3px solid #597acb; outline-offset: 3px; }
+:is(.auth-card,.login-card,.auth-panel) > .csc-return-guard { margin-bottom: 14px; }
+:is(.org-header-controls,.admin-header-controls) > .csc-return-guard { width: 30px; min-height: 30px; padding: 5px; }
+:is(.org-header-controls,.admin-header-controls) > .csc-return-guard span { display: none; }
+@media (max-width: 620px) { .admin-header-row > .csc-return-guard span, header .brand > .csc-return-guard span { display: none; } }
