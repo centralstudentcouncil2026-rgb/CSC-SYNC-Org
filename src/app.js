@@ -16,9 +16,9 @@ let activeToastKey = "";
 function renderLogin() {
   const toast = getState().ui.toast;
   return renderAuthPage({ content: `
-    <form class="login-form" data-login-form>
-      <label>User account<input class="input" name="userAccount" type="email" autocomplete="username" required></label>
-      <label>Password<input class="input" name="password" type="password" autocomplete="current-password" required></label>
+    <form class="login-form" data-login-form data-csc-account-scope="sync-org">
+      <label>User account<input class="input" name="userAccount" type="email" data-csc-username autocomplete="section-csc-sync-org username" required></label>
+      <label>Password<input class="input" name="password" type="password" data-csc-password autocomplete="section-csc-sync-org current-password" required></label>
       <button class="blue-pill" type="submit">Log in to dashboard</button>
     </form>
     ${toast?.message ? `<p class="login-message ${toast.type === "error" ? "error" : "success"}" role="${toast.type === "error" ? "alert" : "status"}">${escapeHtml(toast.message)}</p>` : ""}
@@ -31,7 +31,7 @@ function renderSignup() {
   return renderAuthPage({ signup: true, content: `
     <form class="login-form" data-signup-form>
       <label>Officer name<input class="input" name="officerName" autocomplete="name" required></label>
-      <label>User account<input class="input" name="userAccount" type="email" autocomplete="username" required></label>
+      <label>User account<input class="input" name="userAccount" type="email" autocomplete="email" required></label>
       <label>Organization name<input class="input" name="organizationName" required></label>
       <label>Phone number<input class="input" name="phone" type="tel" autocomplete="tel" required></label>
       <label>Password<input class="input" name="password" type="password" autocomplete="new-password" minlength="6" required></label>
@@ -118,13 +118,14 @@ function bindGlobalEvents(root) {
   });
 
   root.querySelectorAll("[data-login-form]").forEach((form) => {
-    const clearDraft = bindFormDraft(form, { name: "login" });
+    const clearDraft = bindFormDraft(form, { scope: "sync-org", name: "login" });
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
       const button = form.querySelector("button[type='submit']");
       button.disabled = true;
       try {
         await loginWithSupabase(Object.fromEntries(new FormData(form).entries()));
+        window.CSCAccounts?.remember("sync-org", form.elements.userAccount.value);
         clearDraft();
         navigate("/organization/calendar");
       } catch (error) {
