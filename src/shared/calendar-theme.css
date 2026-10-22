@@ -1,0 +1,41 @@
+/* Shared calendar surfaces and type across Admin, Org, and Student View. */
+:is(.main-calendar, .conference-room-calendar, .year-grid) {
+  --line: #7b8da5;
+}
+:is(.main-calendar, .conference-room-calendar) {
+  background: rgba(255, 255, 255, .44);
+  border-color: var(--line);
+  backdrop-filter: blur(3px);
+}
+.main-calendar .month-cell {
+  background: rgba(255, 255, 255, .14);
+}
+.main-calendar :is(.weekday-row > div, .calendar-weekdays > b) {
+  background: rgba(255, 255, 255, .48);
+}
+.conference-room-calendar .week-head {
+  background: rgba(248, 251, 255, .42);
+}
+.conference-room-calendar .week-slot {
+  background: rgba(255, 255, 255, .14);
+}
+.conference-room-calendar .week-slot.selected-day {
+  background: rgba(218, 232, 255, .32);
+}
+.conference-room-calendar .time-label { color: #344054; }
+.year-grid .mini-month {
+  background: rgba(255, 255, 255, .48);
+  border-color: var(--line);
+  backdrop-filter: blur(3px);
+}
+.year-grid .mini-month.active { background: rgba(222, 235, 255, .52); }
+.year-grid :is(.mini-calendar-grid, .mini-day) { border-color: var(--line); }
+.year-grid .mini-day { background: rgba(255, 255, 255, .14); }
+.year-grid .mini-day.empty { background: rgba(255, 255, 255, .06); }
+.year-grid :is(.mini-month-title small, .mini-weekdays b) { color: #344054; }
+/* Keep blocked dates distinct on the lighter calendar surface. */
+.year-grid .mini-day.has-calendar-block { background: #ffe1e1; }
+:is(.org-header, .admin-org-header, .main-calendar, .conference-room-calendar, .year-grid),
+:is(.org-header, .admin-org-header, .main-calendar, .conference-room-calendar, .year-grid) * {
+  font-weight: 600 !important;
+}
