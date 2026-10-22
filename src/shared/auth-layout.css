@@ -49,3 +49,7 @@
   .auth-page-signup .auth-card form { grid-template-columns:minmax(0,1fr); }
   .auth-page .auth-card { padding:24px 20px; }
 }
+
+/* Keep the portal back link at the upper-left of the organization login page. */
+.auth-page.auth-page-with-back { grid-template-rows: auto minmax(0,1fr); }
+.auth-page-with-back > .csc-return-guard { justify-self: start; align-self: start; margin: 12px 0 0 12px; }
