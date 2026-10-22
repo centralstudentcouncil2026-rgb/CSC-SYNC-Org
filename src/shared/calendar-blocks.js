@@ -1,4 +1,61 @@
 import { escapeHtml, formatTime } from './ui.js';
+import { showNotice } from './notices.js?v=20261022-overlay';
+
+const dateOf = time => new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Manila', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date(time));
+const dayStart = date => new Date(`${date}T00:00:00+08:00`).getTime();
+function fullDayBlocked(blocks, date) {
+  let cursor = dayStart(date); const end = cursor + 86400000;
+  const ranges = blocks.map(block => [Date.parse(block.starts_at), Date.parse(block.ends_at)]).filter(([a,b]) => a < end && b > cursor).sort((a,b) => a[0]-b[0]);
+  for (const [a,b] of ranges) { if (a > cursor) return false; cursor = Math.max(cursor,b); }
+  return cursor >= end;
+}
+export function calendarBlockOverlap(blocks, accountId, first, last = first, startTime = '00:00', endTime) {
+  const start = new Date(`${first}T${startTime}:00+08:00`).getTime();
+  const end = endTime ? new Date(`${last}T${endTime}:00+08:00`).getTime() : dayStart(last) + 86400000;
+  return blocks.filter(block => block.created_by !== accountId && Date.parse(block.starts_at) < end && Date.parse(block.ends_at) > start);
+}
+function availableTime(blocks, accountId, date) {
+  const start = dayStart(date), end = start + 86400000;
+  const ranges = calendarBlockOverlap(blocks, accountId, date).map(block => [Math.max(start, Date.parse(block.starts_at)), Math.min(end, Date.parse(block.ends_at))]).sort((a,b) => a[0]-b[0]);
+  const gaps = []; let cursor = start;
+  for (const [a,b] of ranges) { if (a > cursor) gaps.push([cursor,a]); cursor = Math.max(cursor,b); }
+  if (cursor < end) gaps.push([cursor,end]);
+  for (const preferred of [start+8*3600000,start]) for (const [a,b] of gaps) {
+    const from = Math.ceil(Math.max(a,preferred)/60000)*60000, to = Math.floor(Math.min(b,from+3600000)/60000)*60000;
+    if (to-from < 60000) continue;
+    const time = value => new Date(value+8*3600000).toISOString().slice(11,16);
+    return { startDate: dateOf(from), endDate: dateOf(to), startTime: time(from), endTime: time(to) };
+  }
+  return null;
+}
+export function requestCalendarCreation(blocks, { accountId, first, last = first, onOpen }) {
+  const conflicts = calendarBlockOverlap(blocks, accountId, first, last);
+  if (!conflicts.length) { onOpen({ startDate: first, endDate: last }); return; }
+  const slot = first === last ? availableTime(blocks, accountId, first) : null;
+  let wholeDay = false;
+  for (let day = dayStart(first); day <= dayStart(last); day += 86400000) if (fullDayBlocked(conflicts, dateOf(day))) { wholeDay = true; break; }
+  showNotice({ title: wholeDay ? 'Date blocked' : 'Time blocked',
+    message: `${wholeDay ? 'This day is blocked by the admin.' : 'This hour is blocked by the admin.'}\n${conflicts.map(block => `${dateOf(block.starts_at)} · ${formatTime(block.starts_at)} – ${dateOf(block.ends_at)} · ${formatTime(block.ends_at)}\n${block.reason}`).join('\n')}`,
+    actions: slot ? [{ label: `Use available time: ${slot.startTime}–${slot.endTime}`, run: () => onOpen(slot) }] : [],
+  });
+}
+export function calendarBlockStrips(blocks, first, last) {
+  const rows = [];
+  for (let day = dayStart(first); day <= dayStart(last); day += 86400000) {
+    const date = dateOf(day), next = day + 86400000;
+    if (fullDayBlocked(blocks, date)) continue;
+    for (const block of blocks) {
+      const start = Math.max(day, Date.parse(block.starts_at)), end = Math.min(next, Date.parse(block.ends_at));
+      if (start >= end || start === day && end === next) continue;
+      const local = value => new Date(value+8*3600000).toISOString().replace('Z','+08:00');
+      rows.push({ id: `block-${block.id}-${date}`, isCalendarBlock: true, blockId: block.id, startsAt: local(start), endsAt: local(Math.min(end,next-1)), title: `Blocked · ${formatTime(local(start))}–${formatTime(local(end))}`, reason: block.reason });
+    }
+  }
+  return rows;
+}
+export function renderCalendarBlockStrip(event, row, start, end, lane) {
+  return `<button class="month-span-chip calendar-block-strip" type="button" data-calendar-block="${escapeHtml(event.blockId)}" data-block-date="${event.startsAt.slice(0,10)}" style="--bar-left:${(start-1)*100/7}%;--bar-width:${(end-start)*100/7}%;--bar-lane:${lane}" title="${escapeHtml(`${event.title} · ${event.reason}`)}"><strong>Blocked</strong> · ${escapeHtml(`${formatTime(event.startsAt)}–${formatTime(event.endsAt)}`)}</button>`;
+}
 
 export function calendarScheduleValues(values, account) {
   return {
@@ -29,13 +86,19 @@ export function calendarBlockValues(values, accountId) {
 export function bindCalendarBlocks(root, { blocks = [], accountId, request, admin = false, onChange }) {
   const dateOf = time => new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Manila', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date(time));
   const matches = (block, first, last) => new Date(block.starts_at).getTime() < new Date(`${last}T23:59:59.999+08:00`).getTime() && new Date(block.ends_at).getTime() > new Date(`${first}T00:00:00+08:00`).getTime();
-  root.querySelectorAll('[data-date-cell], [data-calendar-date]').forEach(cell => {
-    const date = cell.dataset.dateCell || cell.dataset.calendarDate;
+  root.querySelectorAll('[data-date-cell], [data-calendar-date], [data-block-calendar-date]').forEach(cell => {
+    const date = cell.dataset.dateCell || cell.dataset.calendarDate || cell.dataset.blockCalendarDate;
     const relevant = blocks.filter(block => matches(block, date, date));
     if (!date || !relevant.length) return;
-    cell.classList.add('has-calendar-block');
-    const badge = document.createElement('span'); badge.className = 'calendar-block-marker'; badge.textContent = 'Blocked'; badge.title = relevant.map(block => block.reason).join('; '); cell.append(badge);
+    const full = fullDayBlocked(relevant, date);
+    cell.classList.toggle('has-calendar-block', full);
+    if (full && !cell.dataset.blockCalendarDate) { const badge = document.createElement('span'); badge.className = 'calendar-block-marker'; badge.textContent = 'Blocked'; badge.title = relevant.map(block => block.reason).join('; '); cell.append(badge); }
   });
+  root.querySelectorAll('[data-calendar-block]').forEach(button => button.addEventListener('click', event => {
+    event.stopPropagation();
+    const block = blocks.find(item => item.id === button.dataset.calendarBlock);
+    if (block) showNotice({ title: 'Time blocked', message: `This hour is blocked by the admin.\n${formatTime(block.starts_at)} – ${formatTime(block.ends_at)}\n${block.reason}` });
+  }));
   const form = root.querySelector('[data-admin-event-form], [data-org-form="event"]');
   if (!form) return;
   const list = document.createElement('section'); list.className = 'calendar-block-list'; list.setAttribute('aria-label', 'Blocked calendar times');
@@ -73,5 +136,15 @@ export function bindCalendarBlocks(root, { blocks = [], accountId, request, admi
     }; });
   };
   form.addEventListener('change', sync);
+  form.addEventListener('submit', event => {
+    if (kind?.value === 'block') return;
+    const values = Object.fromEntries(new FormData(form));
+    const last = values.duration === 'multiple' ? values.endDate : values.startDate;
+    if (!values.startDate || !last || !values.startTime || !values.endTime) return;
+    const conflicts = calendarBlockOverlap(blocks, accountId, values.startDate, last, values.startTime, values.endTime);
+    if (!conflicts.length) return;
+    event.preventDefault(); event.stopImmediatePropagation();
+    showNotice({ title: 'Schedule blocked', message: `This hour is blocked by the admin. Choose a different date or time.\n${conflicts.map(block => block.reason).join('\n')}` });
+  }, true);
   sync();
 }

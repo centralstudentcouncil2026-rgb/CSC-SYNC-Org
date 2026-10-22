@@ -3,7 +3,7 @@ import { captureFormView, captureSidePanelScroll, deferFormRender } from "./shar
 import { mountPersonalRoom } from "./shared/personal-room.js?v=20261022-viewer-contacts";
 import { bindSchedulePopupColors } from "./shared/schedule-popups.js";
 import { supabaseRequest } from "./services/supabase.js";
-import { renderOrganizationDashboard, bindOrganizationForms } from "./dashboards/organization.js?v=20261022-calendar-blocks";
+import { openOrganizationCalendarForm, renderOrganizationDashboard, bindOrganizationForms } from "./dashboards/organization.js?v=20261022-block-strips";
 import { loginWithSupabase, logout, signupWithSupabase } from "./services/auth.js";
 import { closeModal, navigate, route, setModal } from "./shared/ui.js";
 import { bindFormDraft } from "./shared/form-drafts.js";
@@ -80,19 +80,7 @@ function bindGlobalEvents(root) {
   root.querySelectorAll("[data-modal]").forEach((element) => {
     element.addEventListener("click", () => {
       if (element.dataset.modal === "event-form") {
-        setState((state) => ({
-          ...state,
-          ui: {
-            ...state.ui,
-            draftDate: state.ui.selectedDate,
-            draftEndDate: state.ui.selectedDate,
-            editEventId: "",
-            editEventStartsAt: "",
-            editEventEndsAt: "",
-            modal: "event-form",
-            sidePanelOpen: false,
-          },
-        }));
+        openOrganizationCalendarForm(getState().ui.dayScheduleDate && getState().ui.modal === 'day-schedules' ? getState().ui.dayScheduleDate : getState().ui.selectedDate);
         return;
       }
       setModal(element.dataset.modal);

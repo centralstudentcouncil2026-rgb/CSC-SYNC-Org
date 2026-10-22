@@ -1,8 +1,9 @@
+import "./shared/notices.js?v=20261022-overlay";
 import { refreshNotifications } from "./services/notifications.js?v=20261021-notification-flow";
 import { refreshConcerns } from "./services/concerns.js?v=20261021-concern-progress";
 import { refreshBookings } from "./services/bookings.js?v=20261021-notification-flow";
 import { route } from "./shared/ui.js";
-import { renderApp } from "./app.js?v=20261022-calendar-blocks";
+import { renderApp } from "./app.js?v=20261022-block-strips";
 import { restoreSavedLogin } from "./services/auth.js";
 import { loadDatabaseState } from "./services/database.js?v=20261022-calendar-blocks";
 import { getState, setState, subscribe } from "./services/store.js";

@@ -1,4 +1,4 @@
-import { bindCalendarBlocks } from "../shared/calendar-blocks.js";
+import { bindCalendarBlocks, calendarBlockStrips, renderCalendarBlockStrip, requestCalendarCreation } from "../shared/calendar-blocks.js?v=20261022-block-strips";
 import { calendarOrganizationOptions } from "../shared/calendar-organization-filter.js";
 import { renderOrganizerContact, mountOrganizerContacts } from "../shared/organizer-contact.js?v=20261022-dashboard-contact";
 import { calendarScheduleLabel, renderMainCalendarStrip } from "../shared/main-calendar.js?v=20261022-title-first";
@@ -7,7 +7,7 @@ import { loadNotificationTarget } from "../shared/notification-target.js";
 import { mapEvent, mapBooking } from "../services/database.js?v=20261022-calendar-blocks";
 import { supabaseRequest } from "../services/supabase.js";
 import { adjacentMonth, bindScheduleValidation } from "../shared/schedule-controls.js";
-import { monthSegments, renderMonthRows, bindMonthOverflow } from "../shared/calendar-layout.js?v=20261020-fit-strips";
+import { monthSegments, renderMonthRows, bindMonthOverflow } from "../shared/calendar-layout.js?v=20261022-block-strips";
 import { bookingOccurrencesBetween, bookingOwner, createBooking, deleteBooking, updateBooking, refreshBookings } from "../services/bookings.js?v=20261021-notification-flow";
 import { concernCategories, createConcern, visibleConcerns, refreshConcerns } from "../services/concerns.js?v=20261021-concern-progress";
 import { categories, createEvent, deleteEvent, eventOccurrencesBetween, statusLabel, updateEvent } from "../services/events.js?v=20261022-calendar-blocks";
@@ -131,7 +131,7 @@ function calendarMonth() {
   const today = todayIsoDate();
   const totalCells = Math.ceil((startOffset + daysInMonth) / 7) * 7;
   const rowCount = totalCells / 7;
-  const spanBars = renderMonthRows(monthSegments(events, selected.year, selected.month, startOffset), rowCount, monthSpanBar);
+  const spanBars = renderMonthRows(monthSegments([...events, ...calendarBlockStrips(getState().calendarBlocks || [], `${selected.year}-${String(selected.month).padStart(2,"0")}-01`, `${selected.year}-${String(selected.month).padStart(2,"0")}-${daysInMonth}`)], selected.year, selected.month, startOffset), rowCount, monthSpanBar);
   const cells = Array.from({ length: totalCells }, (_, index) => {
     const dayNumber = index - startOffset + 1;
     const day = dayNumber >= 1 && dayNumber <= daysInMonth ? String(dayNumber) : "";
@@ -180,6 +180,7 @@ function eventColorClass(event) {
 }
 
 function monthSpanBar(event, row, columnStart, columnEnd, lane, rowCount) {
+  if (event.isCalendarBlock) return renderCalendarBlockStrip(event, row, columnStart, columnEnd, lane);
   return renderMainCalendarStrip(event, row, columnStart, columnEnd, lane, rowCount, accountById(event.ownerAccountId), { escapeHtml, formatTime, color: eventColorClass(event) });
 }
 
@@ -205,7 +206,7 @@ function miniMonthCalendar(monthName, month, selected, events) {
     const dayEvents = events.filter((event) => event.startsAt.startsWith(date));
     const eventTitle = dayEvents.map((event) => `${formatTime(event.startsAt)} ${event.title}`).join("\n");
     return `
-      <span class="mini-day ${dayEvents.length ? "has-events" : ""}" title="${escapeHtml(eventTitle)}">
+      <span class="mini-day ${dayEvents.length ? "has-events" : ""}" data-block-calendar-date="${date}" title="${escapeHtml(eventTitle)}">
         <span class="mini-day-number">${dayNumber}</span>
         ${
           dayEvents.length
@@ -475,8 +476,8 @@ function eventForm() {
   const editingEndsAt = state.ui.editEventEndsAt || editing?.endsAt || "";
   const startDate = editingStartsAt.slice(0, 10) || state.ui.draftDate || state.ui.selectedDate;
   const endDate = editingEndsAt.slice(0, 10) || state.ui.draftEndDate || startDate;
-  const startTime = editingStartsAt.slice(11, 16) || "00:00";
-  const endTime = editingEndsAt.slice(11, 16) || "00:00";
+  const startTime = editingStartsAt.slice(11, 16) || state.ui.draftStartTime || "00:00";
+  const endTime = editingEndsAt.slice(11, 16) || state.ui.draftEndTime || "00:00";
   const duration = startDate === endDate ? "single" : "multiple";
   return `
     <form class="stack-form schedule-form ${duration === "multiple" ? "is-multiple" : ""}" data-org-form="event" data-edit-intent="${editRequested ? "true" : "false"}" ${editing ? `data-event-id="${editing.id}"` : ""}>
@@ -1006,8 +1007,20 @@ function initialsFromName(value) {
     .toUpperCase();
 }
 
+export function openOrganizationCalendarForm(first, last = first) {
+  requestCalendarCreation(getState().calendarBlocks || [], { accountId: getState().session.accountId, first, last, onOpen: slot => {
+    setState(state => ({ ...state, ui: { ...state.ui, selectedDate: slot.startDate, draftDate: slot.startDate, draftEndDate: slot.endDate,
+      draftStartTime: slot.startTime || "", draftEndTime: slot.endTime || "", editEventId: "", editEventStartsAt: "", editEventEndsAt: "", modal: "event-form", sidePanelOpen: false } }));
+    if (slot.startTime) {
+      const form = document.querySelector('[data-org-form="event"]');
+      if (form) for (const name of ['startTime','endTime']) { form.elements[name].value = slot[name]; form.elements[name].dispatchEvent(new Event('input', { bubbles: true })); }
+    }
+  } });
+}
+
 function openDay(date) {
   const hasSchedules = eventOccurrencesBetween(date, date).length > 0;
+  if (!hasSchedules) { openOrganizationCalendarForm(date); return; }
   setState((state) => ({ ...state, ui: { ...state.ui, selectedDate: date, dayScheduleDate: date, draftDate: date, draftEndDate: date, editEventId: "", editEventStartsAt: "", editEventEndsAt: "", modal: hasSchedules ? "day-schedules" : "event-form" } }));
 }
 
@@ -1038,15 +1051,7 @@ function bindCalendarDateSelection() {
 
   function openRange(start, end) {
     const [from, to] = sortDates(start, end);
-    setState((state) => ({
-      ...state,
-      ui: {
-        ...state.ui,
-        draftDate: from,
-        draftEndDate: to,
-        modal: "event-form",
-      },
-    }));
+    openOrganizationCalendarForm(from, to);
   }
 
   cells.forEach((cell) => {

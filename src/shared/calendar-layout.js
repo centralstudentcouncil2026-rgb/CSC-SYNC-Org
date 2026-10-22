@@ -24,7 +24,7 @@ export function monthSegments(events, year, month, startOffset, dateOf = (value)
       index = segmentEnd + 1;
     }
   }
-  segments.sort((a, b) => a.row - b.row || a.start - b.start || b.end - a.end || a.event.startsAt.localeCompare(b.event.startsAt) || String(a.event.id).localeCompare(String(b.event.id)));
+  segments.sort((a, b) => a.row - b.row || Number(Boolean(b.event.isCalendarBlock)) - Number(Boolean(a.event.isCalendarBlock)) || a.start - b.start || b.end - a.end || a.event.startsAt.localeCompare(b.event.startsAt) || String(a.event.id).localeCompare(String(b.event.id)));
   const rows = new Map();
   for (const segment of segments) {
     if (!rows.has(segment.row)) rows.set(segment.row, []);

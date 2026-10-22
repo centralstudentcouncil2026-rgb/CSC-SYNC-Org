@@ -24,3 +24,8 @@ The block creator can still create their own schedules in that range. Other admi
 Existing schedules are retained. Only the block creator can remove a block, using **Remove Block** in the schedule form for that date.
 Blocks are visible only to signed-in dashboards. Times use Asia/Manila (UTC+8); touching endpoints are allowed.
 The database checks writes and approvals, and schedule saves are atomic. Rejected drafts remain available for correction.
+
+
+## Shared notices and blocked dates
+
+Errors use the same dismissible notice card above all open dialogs. In Admin and Org calendars, timed blocks share schedule-strip lanes and all-day blocks shade the date light red. Selecting a blocked date or range shows a notice before opening the form; partially blocked single dates offer an available time. Existing schedules remain viewable, and the block creator retains the existing scheduling exemption. Database migration 042 still enforces conflicts, including recurring schedules. This UI update requires no additional SQL.
