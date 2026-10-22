@@ -1,32 +1,17 @@
-# CSC S.Y.N.C. Organization Dashboard — Codex Modular Handoff
+# CSC SYNC Org
 
-This ZIP was prepared so Codex can understand and refactor the organization dashboard more easily.
+Standalone org application. Serve `index.html` from this repository root.
+Shared JavaScript, styles and images are copied locally; no sibling repository is required.
 
-## What is inside
+## Local use
 
-- `org-dashboard.html` — untouched current compacted dashboard fallback.
-- `legacy/original-compacted/` — original dashboard and original uploaded ZIP.
-- `src/legacy-bundle/` — virtual modules extracted from the embedded `moduleSources` object.
-- `src/legacy-inline/` — every inline script extracted from `org-dashboard.html` in original order.
-- `src/legacy-external-scripts/` — standalone JS files from the uploaded ZIP.
-- `src/features/` — feature-based organization folders for future cleanup.
-- `src/services/` — planned service layer for Supabase/data operations.
-- `src/ui/` — UI polish, mobile, modal, sidebar, and visual fix scripts.
-- `styles/` — extracted CSS and planned split CSS files.
-- `docs/` — module map, bug-fix guide, extraction report, and structure tree.
+Run `npm run dev`, then open http://127.0.0.1:5173/.
+Run `npm run check` to validate local imports and assets.
+No dependency installation or build is required. Static hosting can publish the repository root.
 
-## Current source summary
+## Database
 
-- Main dashboard: `org-dashboard.html`
-- Approximate line count: 11,242 lines
-- Inline script tags extracted: 14
-- Inline style tags extracted: 5
-- Virtual modules extracted: 11
-- Files in uploaded ZIP: 8
+Uses the existing shared CSC SYNC Supabase project and its public client key.
+No private credentials are included. Access is enforced by database policies.
 
-## Recommended Codex instruction
-
-Paste this into Codex:
-
-> Read `CODEX_PROMPT.md` first. Preserve current behavior first. Do not optimize yet. Make the organization dashboard modular using the provided structure, then fix only the specific bug I mention.
-
+`database/migrations` contains the shared backend schema and migrations, copied into this repository for reference and setup. These files do not run automatically. The Admin and Org apps use the same database; apply each migration once to that shared project, not once per repository.

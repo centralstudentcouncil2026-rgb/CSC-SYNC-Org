@@ -1,0 +1,102 @@
+/* Personal Room uses Conference Room's calendar, header controls and modals. */
+[data-personal-room] { display: grid; grid-template-rows: minmax(0, 1fr); height: 100%; min-height: 0; min-width: 0; }
+.personal-room { display: grid; grid-template-rows: minmax(0, 1fr); height: 100%; min-height: 0; min-width: 0; }
+[data-personal-room-controls] { display: contents; }
+.personal-room-calendar { --personal-time-rail: 82px; }
+.personal-room-event-column { position: absolute; top: 0; bottom: 0; width: calc((100% - var(--personal-time-rail)) / 7); pointer-events: none; }
+.personal-room-event { position: absolute; pointer-events: auto; box-sizing: border-box; min-width: 0; min-height: 0; padding-block: 0; }
+.personal-room-notice { margin: 0; white-space: normal; overflow-wrap: anywhere; }
+.personal-room-notice.error { color: #b42318; }
+.personal-room-overlay { grid-template-columns: minmax(0, 1fr); }
+.personal-room-dialog { max-width: 100%; min-width: 0; }
+.personal-room-dialog { --room-accent: #2f64ed; --room-soft: #edf3ff; --room-border: #cadaff; border-top: 5px solid var(--room-accent); }
+.personal-room-dialog .modal-topline { background: linear-gradient(120deg, var(--room-soft), #fff); border-bottom-color: var(--room-border); }
+.personal-room-dialog .modal-topline > button { background: #fff; border-color: var(--room-border); }
+.personal-room-dialog [data-personal-form] button[type="submit"], .personal-room-detail-actions [data-personal-edit] { background: var(--room-accent); border-color: var(--room-accent); color: #fff; }
+.personal-room-dialog .input:focus { border-color: var(--room-accent); outline-color: var(--room-accent); }
+.personal-room-dialog p { margin: 0; overflow-wrap: anywhere; }
+.org-dashboard .personal-room-dialog:has([data-personal-form]) .modal-topline span { color: var(--ink); font-size: clamp(1.1rem, 2vw, 1.55rem); text-transform: none; }
+.personal-room-dialog [data-personal-category-fields] { display: grid; gap: 12px; }
+.personal-room-dialog [hidden] { display: none; }
+.personal-room-duration { margin: 0; padding: 0; border: 0; min-width: 0; }
+.personal-room-duration output { display: block; margin-top: 6px; color: #667085; font-size: .85em; }
+.personal-room-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.personal-room-dialog .personal-room-remember { display: flex; align-items: center; gap: 8px; }
+.personal-room-remember input { width: auto; }
+.personal-room-information { display: grid; gap: 12px; margin: 0; }
+.personal-room-information dt { color: #63718a; font-size: .85em; }
+.personal-room-information dd { margin: 2px 0 0; font-weight: 700; overflow-wrap: anywhere; }
+.personal-room-detail-dialog { width: min(640px, 100%); background: #fff; }
+.personal-room-detail-dialog .modal-topline { align-items: flex-start; padding: 18px 22px; }
+.personal-room-detail-heading { min-width: 0; display: grid; gap: 8px; }
+.personal-room-detail-heading h2 { margin: 0; color: var(--ink); font-size: 1.25rem; line-height: 1.3; font-weight: 800; overflow-wrap: anywhere; }
+.personal-room-detail-heading .personal-room-category-badge { justify-self: start; border-radius: 6px; padding: 4px 9px; background: var(--room-accent); color: #fff; font-size: 12px; font-weight: 750; line-height: 1.2; text-transform: none; }
+.personal-room-detail-body { display: grid; gap: 18px; padding: 18px 22px 22px; }
+.personal-room-owner { display: grid; gap: 3px; }
+.personal-room-owner-row { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+.personal-room-owner-row .personal-room-owner { min-width: 0; flex: 1; }
+.personal-room-view-only { display: inline-flex; align-items: center; gap: 5px; padding: 5px 8px; border: 1px solid #e5eaf3; border-radius: 6px; background: #f5f7fb; color: #63718a; font-size: 12px; font-weight: 600; white-space: nowrap; }
+.personal-room-view-only svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.personal-room-owner > span, .personal-room-summary dt { color: #63718a; font-size: 12px; }
+.personal-room-owner > strong { font-size: 14px; overflow-wrap: anywhere; }
+.personal-room-summary { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 18px; margin: 0; padding: 14px 16px; background: var(--room-soft); border: 1px solid var(--room-border); border-radius: 10px; }
+.personal-room-summary > div, .personal-room-detail-body .personal-room-information > div { min-width: 0; }
+.personal-room-summary dd { margin: 4px 0 0; color: var(--ink); font-size: 14px; font-weight: 650; overflow-wrap: anywhere; }
+.personal-room-summary dd small { display: block; margin-top: 4px; color: #63718a; font-size: 12px; font-weight: 500; }
+.personal-room-repeat-summary { grid-column: 1 / -1; }
+.personal-room-detail-body .personal-room-information { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 18px; }
+.personal-room-detail-body .personal-room-information > div:last-child:nth-child(odd) { grid-column: 1 / -1; }
+.personal-room-detail-body .personal-room-information dt { font-size: 12px; }
+.personal-room-detail-body .personal-room-information dd { font-size: 14px; }
+.personal-room-detail-body .personal-room-information > div { padding: 12px; border: 1px solid var(--room-border); border-radius: 9px; background: linear-gradient(135deg, var(--room-soft), #fff); }
+.personal-room-detail-actions { display: flex; justify-content: flex-end; flex-wrap: wrap; gap: 10px; padding: 14px 22px; border-top: 1px solid var(--room-border); background: var(--room-soft); }
+.personal-room-detail-actions > button { width: auto; min-height: 40px; padding: 9px 14px; font-size: 14px; }
+.personal-room-detail-actions .personal-room-delete { color: #b42318; border-color: #edc8c4; }
+.personal-room-detail-actions > p { color: #63718a; font-size: 13px; }
+@media (max-width: 480px) {
+  .personal-room-detail-dialog .modal-topline { padding: 16px; gap: 12px; }
+  .personal-room-detail-body { padding: 16px; gap: 16px; }
+  .personal-room-summary, .personal-room-detail-body .personal-room-information { grid-template-columns: minmax(0, 1fr); }
+  .personal-room-detail-actions { padding: 12px 16px; }
+  .personal-room-detail-actions > button { flex: 1; }
+}
+@media (min-width: 761px) {
+  .personal-room-dialog:has([data-personal-form]) { width: min(840px, 100%); }
+  .personal-room-dialog:has([data-personal-form]) .modal-topline { padding: 12px 18px; }
+  .personal-room-dialog [data-personal-form] { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; gap: 8px 16px; padding: 14px 18px; font-size: 14px; }
+  .personal-room-dialog [data-personal-form] > *, .personal-room-dialog [data-personal-form] label { min-width: 0; }
+  .personal-room-dialog [data-personal-category-fields] { display: contents; }
+  .personal-room-dialog [data-personal-form] label { gap: 4px; }
+  .personal-room-dialog [data-personal-form] .input { min-height: 34px; height: 34px; padding: 6px 10px; font-size: 14px; }
+  .personal-room-dialog [data-personal-form] .form-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  .personal-room-duration, .personal-room-dialog [data-personal-form] > p, .personal-room-dialog [data-personal-form] > .personal-room-actions { grid-column: 1 / -1; }
+  .personal-room-duration { position: relative; }
+  .personal-room-duration output { margin-top: 4px; text-align: right; }
+  .personal-room-dialog [data-personal-form] > p { font-size: 12px; }
+  .personal-room-dialog [data-personal-form-error]:empty { display: none; }
+  .personal-room-dialog [data-personal-form] button { min-height: 34px; padding: 7px 14px; font-size: 14px; }
+  .personal-room-dialog [data-personal-saved-contact] { align-self: center; justify-self: start; }
+  .personal-room-dialog .personal-room-actions { justify-content: flex-end; }
+  .personal-room-dialog .personal-room-actions > button { width: auto; }
+}
+[data-personal-room-controls] .round-button { --personal-control-size: clamp(38px, 5.6vh, 46px); display: grid; flex: 0 0 var(--personal-control-size); width: var(--personal-control-size); height: var(--personal-control-size); place-items: center; padding: 0; border: 1px solid rgba(17, 24, 39, 0.12); border-radius: 999px; background: rgba(255, 248, 235, 0.96); box-shadow: none; color: var(--ink); }
+[data-personal-room-controls] .round-button svg { width: 55%; height: 55%; fill: none; stroke: currentColor; stroke-width: 2.7; stroke-linecap: round; stroke-linejoin: round; }
+.org-header:has([data-personal-room-controls]) .org-header-controls { gap: clamp(6px, 0.8vw, 10px); }
+@media (max-width: 620px) {
+  [data-personal-room-controls] .round-button { --personal-control-size: 36px; }
+}
+@media (max-width: 760px) {
+  .org-header:has([data-personal-room-controls]), .admin-org-header:has([data-personal-room-controls]) { grid-template-columns: auto minmax(0, 1fr); }
+  .org-header:has([data-personal-room-controls]) h1, .admin-org-header:has([data-personal-room-controls]) h1 { max-width: none; }
+  .org-header:has([data-personal-room-controls]) .org-header-controls, .admin-org-header:has([data-personal-room-controls]) .admin-header-controls { grid-column: 1 / -1; justify-content: flex-end; flex-wrap: nowrap; }
+  [data-personal-room-controls] .top-pill { width: auto; max-width: none; flex: 1; min-width: 0; }
+}
+
+.personal-room-profile-contacts { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 6px 12px; padding: 10px; border: 1px solid var(--room-border); border-radius: 9px; background: var(--room-soft); }
+.personal-room-profile-contacts > span { grid-column: 1 / -1; color: var(--muted); font-size: 12px; }
+.personal-room-profile-contacts div { display: grid; gap: 3px; min-width: 0; }
+.personal-room-profile-contacts div span { color: var(--muted); font-size: 12px; }
+.personal-room-profile-contacts strong { font-size: 13px; overflow-wrap: anywhere; }
+.personal-room-contact-options { display: flex; gap: 8px; }
+.personal-room-contact-options a { display: block; flex: 1 1 0; min-width: 0; padding: 10px 12px; min-height: 44px; border-radius: 10px; text-align: center; text-decoration: none; font-size: 14px; }
+.personal-room-contact-note { color: var(--muted); font-size: 13px; }

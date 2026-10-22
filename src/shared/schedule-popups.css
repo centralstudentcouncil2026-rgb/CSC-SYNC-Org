@@ -1,0 +1,118 @@
+.schedule-popup-card { --popup-accent: #2f64ed; --popup-soft: #edf3ff; --popup-border: #cadaff; border-top: 5px solid var(--popup-accent); }
+.schedule-popup-card .modal-topline { background: linear-gradient(120deg, var(--popup-soft), #fff); border-bottom-color: var(--popup-border); }
+.schedule-popup-card .modal-topline > button { background: #fff; border-color: var(--popup-border); }
+.schedule-popup-card .detail-list > article, .schedule-popup-card .detail-list > div { background: linear-gradient(135deg, var(--popup-soft), #fff); border-color: var(--popup-border); }
+.schedule-popup-card .day-schedules-body { background: linear-gradient(180deg, #fff, var(--popup-soft)); }
+.schedule-popup-card .detail-actions { background: var(--popup-soft); border-radius: 10px; }
+.schedule-popup-card .input:focus { border-color: var(--popup-accent); outline-color: var(--popup-accent); }
+.schedule-popup-card form button[type="submit"] { background: var(--popup-accent); border-color: var(--popup-accent); color: #fff; }
+
+/* Keep main-calendar actions together, including on narrow phones. */
+.schedule-popup-card[data-popup-kind="calendar"] .detail-actions {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  gap: clamp(4px, 1vw, 8px);
+  min-width: 0;
+  padding: 6px;
+}
+.schedule-popup-card[data-popup-kind="calendar"] .detail-actions > button {
+  flex: 1 1 0;
+  width: auto;
+  min-width: 0;
+  min-height: 44px;
+  padding: 8px clamp(3px, 1vw, 12px);
+  font-size: clamp(.7rem, 2vw, 1rem);
+  line-height: 1.2;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.schedule-popup-card .organizer-contact {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  padding: 10px;
+  border: 1px solid var(--popup-border);
+  border-radius: 12px;
+  background: var(--popup-soft);
+}
+.schedule-popup-card .organizer-contact > strong { font-size: clamp(.65rem, 1.7vw, .9rem); white-space: nowrap; }
+.schedule-popup-card .organizer-contact-links {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-self: end;
+  width: min(100%, 260px);
+  gap: 8px;
+  min-width: 0;
+}
+.schedule-popup-card .organizer-contact-links > a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1 1 0;
+  width: auto;
+  min-width: 0;
+  min-height: 44px;
+  padding: 8px clamp(3px, .8vw, 12px);
+  font-size: clamp(.65rem, 1.6vw, .88rem);
+  white-space: nowrap;
+  text-decoration: none;
+}
+.schedule-popup-card .organizer-contact-links .field-note { margin: 0; }
+
+/* Main-calendar details share a compact layout in both dashboards. */
+.modal-card.main-schedule-detail-card {
+  width: min(880px, 100%);
+  max-height: calc(100dvh - 32px);
+}
+.main-schedule-detail-card .modal-topline { gap: 10px; padding: 10px 14px; }
+.main-schedule-detail-card .modal-topline > :is(span, strong) {
+  font-size: 1rem;
+  line-height: 1.2;
+  text-transform: none;
+}
+.main-schedule-detail-card .modal-topline > button {
+  min-height: 38px;
+  padding: 7px 12px;
+  font-size: .9rem;
+}
+.main-schedule-detail-card .compact-schedule-detail {
+  display: grid;
+  gap: 8px;
+  padding: 10px;
+}
+.main-schedule-detail-card .schedule-detail-list { gap: 6px; padding: 10px; }
+.main-schedule-detail-card .compact-schedule-detail .schedule-detail-list { padding: 0; }
+.main-schedule-detail-card .schedule-detail-list > :is(article, div):not(.detail-actions):not(.schedule-change-review) {
+  min-width: 0;
+  gap: 3px;
+  padding: 7px 9px;
+}
+.main-schedule-detail-card .schedule-detail-list > :is(article, div) > span { font-size: .65rem; }
+.main-schedule-detail-card .schedule-detail-list > :is(article, div) > strong {
+  font-size: .88rem;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+.main-schedule-detail-card .compact-text strong {
+  display: block;
+  overflow: visible;
+  -webkit-line-clamp: unset;
+  white-space: pre-wrap;
+}
+.main-schedule-detail-card .organizer-contact { gap: 8px; padding: 8px 10px; }
+
+.main-schedule-detail-card .organizer-contact-links > a { min-height: 44px; }
+.main-schedule-detail-card .detail-actions:empty { display: none; }
+@media (min-width: 720px) {
+  .main-schedule-detail-card .schedule-detail-list,
+  .main-schedule-detail-card .compact-schedule-detail .schedule-detail-list { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  .main-schedule-detail-card .schedule-detail-list > :is(article, div):not(.detail-actions):not(.schedule-change-review) { grid-column: span 2; }
+  .main-schedule-detail-card .schedule-detail-list > :is(article, div).compact-text.wide { grid-column: span 3; }
+  .main-schedule-detail-card .schedule-detail-list > :is(.detail-actions, .schedule-change-review, .series-edit-note) { grid-column: 1 / -1; }
+}

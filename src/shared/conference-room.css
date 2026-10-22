@@ -1,0 +1,142 @@
+/* Org grid styling and admin reservation cards, shared by both dashboards. */
+:is(.org-main, .admin-main):has(> [data-personal-room]) {
+  display: grid;
+  align-content: stretch;
+  grid-template-rows: minmax(0, 1fr);
+  min-height: 0;
+  gap: 0;
+  padding: 0;
+  overflow: hidden;
+}
+[data-personal-room] > .personal-room {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr);
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  padding: 6px 18px 8px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  overflow: hidden;
+}
+.admin-main:has(> .conference-room-calendar) {
+  display: grid;
+  align-content: stretch;
+  grid-template-rows: minmax(0, 1fr);
+  gap: 0;
+  padding: 6px 18px 8px;
+  overflow: hidden;
+}
+.conference-room-calendar {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, .68);
+  backdrop-filter: blur(7px);
+}
+.conference-room-calendar .week-head,
+.conference-room-calendar .week-grid {
+  display: grid;
+  grid-template-columns: 82px repeat(7, minmax(0, 1fr));
+  min-width: 0;
+}
+.conference-room-calendar .week-head {
+  border-bottom: 1px solid var(--line);
+  background: rgba(248, 251, 255, .74);
+}
+.conference-room-calendar .week-head strong {
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  min-height: 32px;
+  padding: 0;
+  border-left: 1px solid var(--line);
+  font-size: 1rem;
+  font-weight: 650;
+}
+.conference-room-calendar .week-head strong.selected-day { background: var(--blue); color: white; }
+.conference-room-calendar .week-grid { position: relative; min-height: 0; grid-template-rows: repeat(30, minmax(0, 1fr)); }
+.conference-room-calendar .time-label {
+  display: grid;
+  place-items: center;
+  min-height: 0;
+  border-top: 1px solid var(--line);
+  color: #667085;
+  font-size: clamp(.62rem, 1.35vh, .8rem);
+  font-weight: 650;
+  line-height: 1;
+}
+.conference-room-calendar .week-slot {
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  border-top: 1px solid var(--line);
+  border-left: 1px solid var(--line);
+  background: rgba(255, 255, 255, .54);
+  color: transparent;
+  line-height: 1;
+}
+.conference-room-calendar .time-label.half-hour,
+.conference-room-calendar .week-slot.half-hour { border-top-style: dashed; }
+.conference-room-calendar .week-slot.selected-day { background: rgba(238, 245, 255, .7); }
+.conference-room-calendar .week-slot:hover { background: rgba(255, 247, 210, .86); }
+.conference-room-calendar .week-slot.range-preview { background: rgba(220, 232, 255, .88); box-shadow: inset 0 0 0 2px rgba(47, 100, 237, .36); }
+.conference-room-calendar .room-booking-chip {
+  z-index: 2;
+  display: grid;
+  align-content: start;
+  gap: 2px;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  margin: 2px;
+  border: 0;
+  border-radius: 7px;
+  background: var(--blue);
+  color: white;
+  padding: 6px;
+  font-size: 1rem;
+  text-align: left;
+  box-shadow: 0 8px 18px rgba(47, 100, 237, .22);
+  cursor: pointer;
+  pointer-events: auto;
+}
+.conference-room-calendar .room-booking-chip.pending { background: #f59e0b; box-shadow: 0 8px 18px rgba(245, 158, 11, .22); }
+.conference-room-calendar .room-booking-chip.approved { background: #16a34a; box-shadow: 0 8px 18px rgba(22, 163, 74, .22); }
+.conference-room-calendar .room-booking-chip.rejected { background: #dc2626; box-shadow: 0 8px 18px rgba(220, 38, 38, .22); }
+.conference-room-calendar .room-booking-chip.admin-booking { background: var(--blue); box-shadow: 0 8px 18px rgba(47, 100, 237, .22); }
+.conference-room-calendar .room-booking-chip strong,
+.conference-room-calendar .room-booking-chip small {
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: normal;
+}
+.conference-room-calendar .room-booking-chip strong { font-size: 1rem; font-weight: 850; }
+.conference-room-calendar .room-booking-chip small { font-size: .83333rem; font-weight: 650; }
+.conference-room-calendar .room-booking-chip[data-room-compact] { padding: 1px 4px; }
+.conference-room-calendar .room-booking-chip[data-room-compact] strong { font-size: clamp(.55rem, 1.25vh, .75rem); line-height: 1.1; }
+.conference-room-calendar .room-booking-chip[data-room-compact] small { display: none; }
+@media (orientation: portrait), (max-width: 720px) {
+  [data-personal-room] > .personal-room { padding: 6px; }
+  .admin-main:has(> .conference-room-calendar) { padding: 6px; }
+  .conference-room-calendar .week-head,
+  .conference-room-calendar .week-grid { grid-template-columns: 38px repeat(7, minmax(0, 1fr)); }
+  .conference-room-calendar .week-head strong { min-height: 26px; padding: 0 1px; font-size: clamp(.48rem, 2.2vw, .68rem); }
+  .conference-room-calendar .time-label { font-size: clamp(.45rem, 2.1vw, .58rem); }
+  .conference-room-calendar .room-booking-chip { padding: 3px; }
+  .conference-room-calendar .room-booking-chip strong { font-size: .72rem; }
+  .conference-room-calendar .room-booking-chip small { font-size: .6rem; }
+  .conference-room-calendar .room-booking-chip[data-room-compact] { padding: 1px 3px; }
+}

@@ -1,0 +1,161 @@
+/* Shared main calendar presentation for both roles. */
+.schedule-calendar-header:is(.org-header, .admin-org-header) {
+  display: grid;
+  align-items: center;
+  border-bottom: 3px solid var(--blue);
+  background: linear-gradient(90deg, var(--yellow), #e0a900);
+}
+.schedule-calendar-header:is(.org-header, .admin-org-header) > h1 { margin: 0; text-align: center; font-weight: 950; letter-spacing: 0; text-transform: none; }
+.schedule-calendar-header:is(.org-header, .admin-org-header) :is(.org-brand, .admin-org-brand) { display: flex; align-items: center; min-width: 0; }
+.schedule-calendar-header:is(.org-header, .admin-org-header) :is(.org-brand, .admin-org-brand) strong { display: block; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-weight: 950; }
+.schedule-calendar-header:is(.org-header, .admin-org-header) :is(.org-brand, .admin-org-brand) small { overflow: hidden; margin-top: -4px; font-size: clamp(.58rem, .8vw, .68rem); white-space: nowrap; text-overflow: ellipsis; }
+.schedule-calendar-header:is(.org-header, .admin-org-header) :is(.org-header-controls, .admin-header-controls) { display: flex; align-items: center; justify-content: flex-end; min-width: 0; }
+.schedule-calendar-header:is(.org-header, .admin-org-header) :is(.hamburger, .round-button) { display: grid; place-items: center; min-height: 0; padding: 0; border: 1px solid rgba(17,24,39,.12); border-radius: 999px; background: #fff7df; color: var(--ink); box-shadow: none; }
+.schedule-calendar-header:is(.org-header, .admin-org-header) .round-button svg { width: 45%; height: 45%; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.schedule-calendar-header:is(.org-header, .admin-org-header) .top-pill { border: 1px solid rgba(17,24,39,.12); border-radius: 999px; background: #fff7df; color: var(--ink); font-weight: 650; }
+.schedule-calendar-header:is(.org-header, .admin-org-header) .seal { object-fit: contain; }
+.schedule-calendar-header:is(.org-header, .admin-org-header) {
+  grid-template-columns: minmax(220px, 1fr) auto minmax(260px, 1fr);
+  min-height: clamp(50px, 7vh, 58px);
+  gap: clamp(8px, 1.5vw, 14px);
+  padding: 5px clamp(8px, 1.2vw, 14px);
+}
+.schedule-calendar-header:is(.org-header, .admin-org-header) > h1 {
+  max-width: none;
+  justify-self: center;
+  white-space: normal;
+  font-size: clamp(1.2rem, 2vw, 1.75rem);
+  line-height: normal;
+}
+.schedule-calendar-header:is(.org-header, .admin-org-header) :is(.org-brand, .admin-org-brand) { gap: clamp(6px, .9vw, 10px); }
+.schedule-calendar-header:is(.org-header, .admin-org-header) :is(.org-brand, .admin-org-brand) > div { min-width: 0; }
+.schedule-calendar-header:is(.org-header, .admin-org-header) :is(.org-brand, .admin-org-brand) strong {
+  max-width: none;
+  font-size: clamp(1rem, 1.8vw, 1.42rem);
+  letter-spacing: .08em;
+}
+.schedule-calendar-header:is(.org-header, .admin-org-header) :is(.org-brand, .admin-org-brand) small { display: block; }
+.schedule-calendar-header:is(.org-header, .admin-org-header) :is(.org-header-controls, .admin-header-controls) {
+  grid-column: auto;
+  width: auto;
+  flex-wrap: nowrap;
+  gap: clamp(6px, .8vw, 10px);
+}
+.schedule-calendar-header:is(.org-header, .admin-org-header) :is(.org-header-controls, .admin-header-controls) .top-pill {
+  flex: 0 1 auto;
+  width: auto;
+  max-width: none;
+  min-width: clamp(118px, 12vw, 170px);
+  min-height: 0;
+  height: clamp(38px, 5.6vh, 46px);
+  padding: 0 16px;
+  font-size: 1rem;
+}
+.schedule-calendar-header:is(.org-header, .admin-org-header) .hamburger {
+  flex: 0 0 auto;
+  width: clamp(38px, 5.6vh, 44px);
+  height: clamp(38px, 5.6vh, 44px);
+  font-size: clamp(1.15rem, 2.7vh, 1.45rem);
+}
+.schedule-calendar-header:is(.org-header, .admin-org-header) .round-button {
+  flex: 0 0 auto;
+  width: clamp(38px, 5.6vh, 46px);
+  height: clamp(38px, 5.6vh, 46px);
+}
+.schedule-calendar-header:is(.org-header, .admin-org-header) .seal {
+  flex: 0 0 auto;
+  width: clamp(34px, 4.6vh, 40px);
+  height: clamp(40px, 5.8vh, 48px);
+}
+.schedule-calendar-header:is(.org-header, .admin-org-header) .bell { font-size: clamp(1.05rem, 2.4vh, 1.25rem); }
+@media (max-width: 980px) {
+  .schedule-calendar-header:is(.org-header, .admin-org-header) {
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    gap: 8px;
+  }
+  .schedule-calendar-header:is(.org-header, .admin-org-header) > h1 { font-size: clamp(1.05rem, 2.8vw, 1.45rem); }
+  .schedule-calendar-header:is(.org-header, .admin-org-header) :is(.org-header-controls, .admin-header-controls) .top-pill {
+    width: clamp(88px, 12vw, 118px);
+    min-width: 0;
+    max-width: 118px;
+  }
+}
+@media (max-width: 620px) {
+  .schedule-calendar-header:is(.org-header, .admin-org-header) {
+    grid-template-columns: minmax(54px, 1fr) minmax(46px, auto) auto;
+    min-height: 54px;
+    padding: 5px 6px;
+    gap: 4px;
+  }
+  .schedule-calendar-header:is(.org-header, .admin-org-header) > h1 {
+    max-width: 9ch;
+    font-size: clamp(.72rem, 2.8vw, 1.05rem);
+    line-height: 1.1;
+  }
+  .schedule-calendar-header:is(.org-header, .admin-org-header) :is(.org-brand, .admin-org-brand) { gap: 4px; }
+  .schedule-calendar-header:is(.org-header, .admin-org-header) :is(.org-brand, .admin-org-brand) small { display: none; }
+  .schedule-calendar-header:is(.org-header, .admin-org-header) :is(.org-brand, .admin-org-brand) strong {
+    max-width: 110px;
+    font-size: clamp(.72rem, 2.4vw, .95rem);
+    letter-spacing: .02em;
+  }
+  .schedule-calendar-header:is(.org-header, .admin-org-header) :is(.org-header-controls, .admin-header-controls) { gap: clamp(2px, .7vw, 4px); }
+  .schedule-calendar-header:is(.org-header, .admin-org-header) :is(.org-header-controls, .admin-header-controls) .top-pill {
+    width: clamp(44px, 12vw, 76px);
+    min-width: 0;
+    max-width: 76px;
+    height: clamp(26px, 7.7vw, 36px);
+    padding-inline: clamp(4px, 1.3vw, 8px);
+    font-size: clamp(.6rem, 1.7vw, .8rem);
+  }
+  .schedule-calendar-header:is(.org-header, .admin-org-header) .hamburger,
+  .schedule-calendar-header:is(.org-header, .admin-org-header) .round-button {
+    width: clamp(26px, 7.7vw, 36px);
+    height: clamp(26px, 7.7vw, 36px);
+  }
+  .schedule-calendar-header:is(.org-header, .admin-org-header) .seal {
+    width: clamp(20px, 6vw, 28px);
+    height: clamp(26px, 7.5vw, 34px);
+  }
+  .schedule-calendar-header:is(.org-header, .admin-org-header) .bell { font-size: clamp(.8rem, 2.7vw, 1.05rem); }
+}
+/* Equal outer spacing and a fixed month that fits the available viewport. */
+:is(.org-main, .admin-main):has(> .main-calendar) {
+  display: grid; grid-template-rows: minmax(0, 1fr); align-content: stretch;
+  height: 100%; min-height: 0; gap: 0; overflow: hidden; padding: 10px 18px 12px;
+}
+.main-calendar {
+  display: grid; grid-template-rows: 36px minmax(0, 1fr);
+  min-height: 0; height: 100%; overflow: hidden; border: 1px solid var(--line);
+  border-radius: 18px; background: rgba(255,255,255,.72);
+  box-shadow: 0 18px 38px rgba(51,70,97,.18); backdrop-filter: blur(7px);
+}
+.main-calendar :is(.weekday-row, .calendar-weekdays) { display: grid; grid-template-columns: repeat(7, minmax(0,1fr)); }
+.main-calendar :is(.weekday-row > div, .calendar-weekdays > b) {
+  display: grid; place-items: center; height: 36px; border: 0; border-right: 1px solid var(--line);
+  background: rgba(255,255,255,.72); font-size: clamp(.8rem,1.7vw,1.1rem); font-weight: 850;
+}
+.main-calendar :is(.weekday-row > div, .calendar-weekdays > b):last-child { border-right: 0; }
+.main-calendar :is(.month-grid, .calendar-month) { position: relative; height: 100%; min-height: 0; }
+.main-calendar .month-cell {
+  position: relative; display: block; width: 100%; min-height: 0; min-width: 0; margin: 0;
+  border: 0; border-top: 1px solid var(--line); border-right: 1px solid var(--line);
+  padding: 28px 7px 7px; border-radius: 0; background: rgba(255,255,255,.58);
+  color: var(--ink); box-shadow: none;
+}
+.main-calendar .month-cell:nth-child(7n) { border-right: 0; }
+.main-calendar .month-cell.today { background: rgba(255,248,200,.78); box-shadow: inset 0 0 0 2px #dae3ef; }
+.main-calendar .month-cell.range-preview { background: rgba(234,241,255,.82); box-shadow: inset 0 0 0 2px rgba(47,100,237,.42); }
+.main-calendar .month-cell > .month-date-number { position: absolute; top: clamp(5px,1vh,8px); right: 9px; font-size: clamp(.9rem,1.5vh,1.1rem); font-weight: 850; line-height: 1.2; }
+.main-calendar .month-schedule-row .month-span-chip {
+  left: calc(var(--bar-left) + 5px); width: calc(var(--bar-width) - 10px);
+  border: 0; border-radius: 6px; padding: 0 8px; font-weight: 850;
+  font-size: min(clamp(.65rem,1.25vh,.78rem),var(--schedule-font));
+}
+@media (max-width: 620px), (orientation: portrait) {
+  :is(.org-main, .admin-main):has(> .main-calendar) { padding: 6px; }
+  .main-calendar { grid-template-rows: 28px minmax(0,1fr); border-radius: 14px; }
+  .main-calendar :is(.weekday-row > div, .calendar-weekdays > b) { height: 28px; font-size: clamp(.65rem,2vw,.9rem); }
+  .main-calendar .month-cell > .month-date-number { right: 5px; font-size: .8rem; }
+  .main-calendar .month-schedule-row .month-span-chip { left: calc(var(--bar-left) + 2px); width: calc(var(--bar-width) - 4px); padding-inline: 3px; }
+}
