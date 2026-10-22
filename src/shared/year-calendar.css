@@ -1,0 +1,74 @@
+/* Year views scroll whole month cards instead of shrinking their rows. */
+:is(.org-main, .admin-main):has(> .year-grid) {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr);
+  align-content: stretch;
+  height: 100%;
+  min-height: 0;
+  gap: 0;
+  overflow: hidden;
+  padding: 10px 18px 12px;
+}
+.year-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-rows: none;
+  grid-auto-rows: minmax(220px, 1fr);
+  align-content: start;
+  gap: 10px;
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+.year-grid .mini-month {
+  grid-template-rows: auto auto minmax(0, 1fr);
+  min-width: 0;
+  min-height: 0;
+  gap: 5px;
+  padding: 9px;
+  overflow: hidden;
+}
+.year-grid .mini-month-title { min-width: 0; gap: 4px; }
+.year-grid .mini-month-title strong {
+  min-width: 0;
+  font-size: clamp(.8rem, 1.5vw, 1.1rem);
+  line-height: 1.3;
+}
+.year-grid .mini-month-title small { flex: 0 0 auto; font-size: .68rem; }
+.year-grid .mini-weekdays,
+.year-grid .mini-calendar-grid { min-width: 0; }
+.year-grid .mini-weekdays b { min-width: 0; min-height: 16px; font-size: .6rem; }
+.year-grid .mini-day {
+  grid-template-rows: auto minmax(0, 1fr);
+  min-width: 0;
+  min-height: 0;
+  padding: 2px;
+  overflow: hidden;
+}
+.year-grid .mini-day-number { font-size: .62rem; line-height: 1.1; }
+.year-grid .mini-event-strips {
+  position: static;
+  align-self: end;
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
+}
+.year-grid .mini-event-strips em { position: static; font-size: .5rem; line-height: 1; }
+@media (max-width: 1100px) {
+  .year-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 760px) {
+  :is(.org-main, .admin-main):has(> .year-grid) { padding: 6px; }
+  .year-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .year-grid .mini-month { padding: 7px; border-radius: 12px; }
+  .year-grid .mini-event-strips { display: flex; align-items: center; gap: 2px; }
+  .year-grid .mini-event-strips i {
+    flex: 0 1 6px;
+    width: 6px;
+    height: 4px;
+    padding: 0;
+    border-radius: 2px;
+    font-size: 0;
+  }
+}
