@@ -7,12 +7,12 @@
     officers: Object.freeze({ name: 'CSC Officers', url: origin + '/CSC-SYNC-Admin/csc-officers.html' })
   });
   const policies = Object.freeze({
-    'CSC-SYNC-PublicView': Object.freeze(['students']),
+    'CSC-SYNC-PublicView': Object.freeze(['students', 'officers']),
     'CSC-SYNC-Org': Object.freeze(['cole']),
     'CSC-SYNC-Admin': Object.freeze(['officers']),
-    'CSC-TRACE-StudentView': Object.freeze(['students', 'cole']),
+    'CSC-TRACE-StudentView': Object.freeze(['students', 'cole', 'officers']),
     'CSC-TRACE-Admin': Object.freeze(['officers']),
-    'CSC-L.I.V.E.-StudentView': Object.freeze(['students', 'cole']),
+    'CSC-L.I.V.E.-StudentView': Object.freeze(['students', 'cole', 'officers']),
     'CSC-L.I.V.E.': Object.freeze(['officers'])
   });
   function resolve(site, href, storedPortal) {
