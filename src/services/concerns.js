@@ -1,6 +1,6 @@
 import { createCollectionRefresh } from "../shared/collection-refresh.js";
 import { currentAccount, getState, setState } from "./store.js";
-import { mapConcern, mapNotification } from "./database.js?v=20261022-owner-contact";
+import { mapConcern, mapNotification } from "./database.js?v=20261022-calendar-blocks";
 import { supabaseRequest } from "./supabase.js";
 
 export const concernCategories = [

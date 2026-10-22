@@ -1,15 +1,16 @@
+import { bindCalendarBlocks } from "../shared/calendar-blocks.js";
 import { calendarOrganizationOptions } from "../shared/calendar-organization-filter.js";
 import { renderOrganizerContact, mountOrganizerContacts } from "../shared/organizer-contact.js?v=20261022-dashboard-contact";
 import { calendarScheduleLabel, renderMainCalendarStrip } from "../shared/main-calendar.js?v=20261022-title-first";
 import { CONFERENCE_SLOT_COUNT, renderRoomBookingCard } from "../shared/room-booking-card.js";
 import { loadNotificationTarget } from "../shared/notification-target.js";
-import { mapEvent, mapBooking } from "../services/database.js?v=20261022-owner-contact";
+import { mapEvent, mapBooking } from "../services/database.js?v=20261022-calendar-blocks";
 import { supabaseRequest } from "../services/supabase.js";
 import { adjacentMonth, bindScheduleValidation } from "../shared/schedule-controls.js";
 import { monthSegments, renderMonthRows, bindMonthOverflow } from "../shared/calendar-layout.js?v=20261020-fit-strips";
 import { bookingOccurrencesBetween, bookingOwner, createBooking, deleteBooking, updateBooking, refreshBookings } from "../services/bookings.js?v=20261021-notification-flow";
 import { concernCategories, createConcern, visibleConcerns, refreshConcerns } from "../services/concerns.js?v=20261021-concern-progress";
-import { categories, createEvent, deleteEvent, eventOccurrencesBetween, statusLabel, updateEvent } from "../services/events.js?v=20261022-csc-filter";
+import { categories, createEvent, deleteEvent, eventOccurrencesBetween, statusLabel, updateEvent } from "../services/events.js?v=20261022-calendar-blocks";
 import { markNotificationRead, myNotifications, unreadCount, refreshNotifications } from "../services/notifications.js?v=20261021-notification-flow";
 import { requestProfileUpdate, updateProfileImage } from "../services/profiles.js?v=20261022-messenger";
 import { accountById, currentAccount, getState, setState } from "../services/store.js";
@@ -603,6 +604,7 @@ function eventDetail() {
 export function bindOrganizationForms() {
     const dashboard = document.querySelector(".org-dashboard");
     if (!dashboard) return;
+
     mountOrganizerContacts(dashboard, (path, options) => supabaseRequest(path, options, getState().session.accessToken));
     dashboard?.addEventListener("click", (event) => {
       const detailTarget = event.target.closest("[data-event-detail]");
@@ -704,6 +706,7 @@ export function bindOrganizationForms() {
     document.querySelector("[data-retry-bookings]")?.addEventListener("click", refreshBookings);
     bindBookingTimeGuards();
     bindProfilePreview();
+    bindCalendarBlocks(dashboard, { blocks: getState().calendarBlocks || [], accountId: getState().session.accountId, request: (path, options) => supabaseRequest(path, options, getState().session.accessToken) });
     document.querySelector("[data-refresh-notifications]")?.addEventListener("click", refreshNotifications);
     document.querySelector("[data-refresh-concerns]")?.addEventListener("click", refreshConcerns);
     document.querySelectorAll("[data-edit-event]").forEach((button) => {

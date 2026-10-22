@@ -166,7 +166,7 @@ async function optionalTable(path, token) {
 }
 
 export async function loadDatabaseState(accessToken, { includeBookings = true, includeConcerns = true, includeNotifications = true } = {}) {
-  const [profiles, staffRoles, events, eventSeries, eventOccurrences, eventRevisions, bookings, concerns, notifications, announcements, officialStatuses, adminAccounts] = await Promise.all([
+  const [profiles, staffRoles, events, eventSeries, eventOccurrences, eventRevisions, bookings, concerns, notifications, announcements, officialStatuses, calendarBlocks, adminAccounts] = await Promise.all([
     optionalTable("/profiles?select=*", accessToken),
     optionalTable("/staff_roles?select=user_id,role", accessToken),
     optionalTable("/events?select=*&order=created_at.desc", accessToken),
@@ -178,6 +178,7 @@ export async function loadDatabaseState(accessToken, { includeBookings = true, i
     includeNotifications ? optionalTable("/notifications?select=*&order=created_at.desc", accessToken) : Promise.resolve([]),
     optionalTable("/announcements?select=*&order=created_at.desc", accessToken),
     optionalTable("/official_statuses?select=*", accessToken),
+    optionalTable("/calendar_blocks?select=*&order=starts_at.asc", accessToken),
     supabaseRequest("/rpc/calendar_admin_accounts", { method: "POST", body: "{}" }, accessToken).catch(() => []),
   ]);
   const roles = roleByUserId(staffRoles);
@@ -195,6 +196,7 @@ export async function loadDatabaseState(accessToken, { includeBookings = true, i
     return items;
   }, {});
   return {
+    calendarBlocks,
     accounts: calendarProfiles.map((profile) => mapProfile(profile, roles)),
     events: events
       .map((event) => mapEvent(event, occurrencesByEventId[event.id], seriesByEventId[event.id], revisionsByEventId[event.id]))

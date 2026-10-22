@@ -1,7 +1,8 @@
+import { saveCalendarSchedule } from "../shared/calendar-blocks.js";
 import { matchesCalendarOrganization } from "../shared/calendar-organization-filter.js";
 import { requireValidSchedule } from "../shared/schedule-controls.js";
 import { accountById, currentAccount, getState, setState } from "./store.js";
-import { mapEvent, mapEventRevision, loadDatabaseState } from "./database.js?v=20261022-owner-contact";
+import { mapEvent, mapEventRevision, loadDatabaseState } from "./database.js?v=20261022-calendar-blocks";
 import { supabaseRequest } from "./supabase.js";
 
 export const eventStatuses = ["draft", "pending", "changes_requested", "approved", "rejected", "cancelled"];
@@ -220,60 +221,8 @@ export function eventSummary(event, mode = "internal") {
 export async function createEvent(formData) {
   requireValidSchedule(formData);
   const account = currentAccount();
-  const startsAt = `${formData.startDate}T${formData.startTime}:00+08:00`;
-  const endsAt = `${formData.endDate}T${formData.endTime}:00+08:00`;
-  const startTemplate = `${formData.startDate}T${formData.startTime}:00`;
-  const endTemplate = `${formData.endDate}T${formData.endTime}:00`;
-
-  const eventPayload = {
-    owner_account_id: account.id,
-    creator_account_id: account.id,
-    title: formData.title.trim(),
-    category: formData.category,
-    other_category_detail: formData.otherCategoryDetail.trim(),
-    venue: formData.venue.trim(),
-    visibility: formData.visibility,
-    public_description: formData.publicDescription.trim(),
-    purpose: formData.purpose.trim(),
-    expected_attendees: Number(formData.expectedAttendees),
-    contact_person_snapshot: account.officerName || account.organizationName || "",
-    contact_number_snapshot: account.phone || "",
-    status: "pending",
-    version: 1,
-  };
-  const rows = await supabaseRequest("/events", {
-    method: "POST",
-    headers: { Prefer: "return=representation" },
-    body: JSON.stringify(eventPayload),
-  }, getState().session.accessToken);
-  const eventRow = requireRow(rows, "Schedule");
-  const seriesRows = await supabaseRequest("/event_series", {
-    method: "POST",
-    headers: { Prefer: "return=representation" },
-    body: JSON.stringify({
-      event_id: eventRow.id,
-      timezone: "Asia/Manila",
-      frequency: formData.frequency,
-      recurrence_rule: {},
-      local_start_template: startTemplate,
-      local_end_template: endTemplate,
-      repeat_until: formData.repeatUntil || null,
-    }),
-  }, getState().session.accessToken);
-  const seriesRow = requireRow(seriesRows, "Schedule recurrence");
-  const occurrenceRows = await supabaseRequest("/event_occurrences", {
-    method: "POST",
-    headers: { Prefer: "return=representation" },
-    body: JSON.stringify({
-      event_id: eventRow.id,
-      series_id: seriesRow.id,
-      original_occurrence_key: startsAt,
-      starts_at: startsAt,
-      ends_at: endsAt,
-    }),
-  }, getState().session.accessToken);
-  const occurrenceRow = requireRow(occurrenceRows, "Schedule calendar date");
-  const event = mapEvent(eventRow, occurrenceRow, seriesRow);
+  const saved = await saveCalendarSchedule((path, options) => supabaseRequest(path, options, getState().session.accessToken), formData, account);
+  const event = mapEvent(saved.event, saved.occurrence, saved.series);
 
   setState((state) => ({
     ...state,

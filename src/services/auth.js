@@ -1,5 +1,5 @@
 import { clearAuthState, getState, persistAuthState, setState } from "./store.js";
-import { loadDatabaseState } from "./database.js?v=20261022-owner-contact";
+import { loadDatabaseState } from "./database.js?v=20261022-calendar-blocks";
 import { API_URL, AUTH_URL, supabaseRequest } from "./supabase.js";
 
 function roleFromRows(rows = []) {

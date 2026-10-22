@@ -1,0 +1,17 @@
+.calendar-block-list { grid-column: 1 / -1; display: grid; gap: 6px; }
+.calendar-block-list article { display:flex; align-items:center; justify-content:space-between; gap:8px; padding:10px; border:1px solid #cadaff; border-radius:10px; background:#edf3ff; }
+.calendar-block-list article > div { min-width:0; overflow-wrap:anywhere; }
+.calendar-block-list p { margin:3px 0 0; font-size:12px; line-height:1.5; }
+.calendar-block-list button { flex:0 0 auto; }
+.calendar-block-marker { position:absolute; bottom:3px; right:3px; font-size:9px; line-height:1.2; color:#234f9c; background:#dce8ff; padding:2px 4px; border-radius:4px; pointer-events:auto; }
+.has-calendar-block { box-shadow: inset 0 0 0 1px #a7c1f5; }
+[data-block-help] { grid-column:1 / -1; margin:0; font-size:12px; line-height:1.5; }
+
+.schedule-form [name="blockAllDay"] { width:auto; min-height:0; }
+
+.modal-card .schedule-form :is(label, input, select, textarea, .form-grid) { min-width:0; max-width:100%; }
+@media (max-width:620px) {
+  .modal-card .schedule-form .date-time-grid,
+  .modal-card .schedule-form.is-multiple .date-time-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .calendar-block-list article { flex-wrap:wrap; }
+}

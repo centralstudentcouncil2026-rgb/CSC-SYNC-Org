@@ -1,6 +1,6 @@
 import { createBookingRefresh } from "../shared/booking-refresh.js";
 import { accountById, currentAccount, getState, setState } from "./store.js";
-import { mapBooking } from "./database.js?v=20261022-owner-contact";
+import { mapBooking } from "./database.js?v=20261022-calendar-blocks";
 import { supabaseRequest } from "./supabase.js";
 
 const DAY_MS = 24 * 60 * 60 * 1000;

@@ -15,3 +15,12 @@ Uses the existing shared CSC SYNC Supabase project and its public client key.
 No private credentials are included. Access is enforced by database policies.
 
 `database/migrations` contains the shared backend schema and migrations, copied into this repository for reference and setup. These files do not run automatically. The Admin and Org apps use the same database; apply each migration once to that shared project, not once per repository.
+
+## Main-calendar date/time blocks
+
+Apply `database/migrations/042_calendar_time_blocks.sql` once in the shared Supabase project before using the updated schedule forms.
+An admin can open the main-calendar creation form, choose **Block date / time**, select a range (or **All day**), enter a reason and save.
+The block creator can still create their own schedules in that range. Other admins and organizations cannot create or move schedules into it, including recurring occurrences.
+Existing schedules are retained. Only the block creator can remove a block, using **Remove Block** in the schedule form for that date.
+Blocks are visible only to signed-in dashboards. Times use Asia/Manila (UTC+8); touching endpoints are allowed.
+The database checks writes and approvals, and schedule saves are atomic. Rejected drafts remain available for correction.

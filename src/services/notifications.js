@@ -1,6 +1,6 @@
 import { createCollectionRefresh } from "../shared/collection-refresh.js";
 import { getState, setState } from "./store.js";
-import { mapNotification } from "./database.js?v=20261022-owner-contact";
+import { mapNotification } from "./database.js?v=20261022-calendar-blocks";
 import { supabaseRequest } from "./supabase.js";
 
 export function myNotifications() {
