@@ -9,13 +9,13 @@ export function renderAuthPage({ admin = false, signup = false, content, assetBa
         <div class="auth-large-flame"><img src="${assetBase}csc-logo.png" alt="" aria-hidden="true"></div>
         <span class="auth-story-tagline">PLAN TOGETHER. STAY IN SYNC.</span>
       </section>
-      <section class="login-card auth-card ${signup ? 'auth-signup-card' : ''}">
+      <div class="login-form-row"><section class="login-card auth-card ${signup ? 'auth-signup-card' : ''}">
         <div class="auth-card-icon"><img src="${assetBase}csc-logo.png" alt=""></div>
         <span class="auth-eyebrow">${role.toUpperCase()} ${signup ? 'REGISTRATION' : 'ACCESS'}</span>
         <h2>${signup ? 'Create your account.' : 'Welcome back.'}</h2>
         <p class="auth-card-intro">${signup ? admin ? 'Register your CSC Council account. An existing administrator will review your request.' : 'Register your organization to start planning and coordinating university activities.' : admin ? 'Sign in to manage schedules, bookings, and your university community.' : 'Sign in to plan your organization’s activities and manage your schedules.'}</p>
         ${content}
-      </section>
+      </section></div>
     </section><p class="auth-footer">Central Student Council · CSC S.Y.N.C.</p></div>
   </main>`;
 }
