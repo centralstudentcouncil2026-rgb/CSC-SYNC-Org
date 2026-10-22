@@ -154,3 +154,38 @@ body.live-login-page #registerForm:not(.hidden) { flex:1 1 auto; align-content:s
  .auth-page .auth-card:not(.auth-signup-card) .input, body:has(.login-wrap) .login-card input { min-height:42px; }
  .auth-page .auth-card:not(.auth-signup-card) h2, body:has(.login-wrap) .login-card h2 { font-size:28px !important; }
 }
+
+/* Calm card composition: compact fields, natural rhythm, and a soft paper wash. */
+.auth-page .auth-card, body:has(.login-wrap) .login-card, body.live-login-page .auth-panel {
+ position:relative; isolation:isolate; overflow:hidden;
+ justify-content:center;
+ background:radial-gradient(ellipse at 100% 0%,#edf2ff 0%,transparent 48%),radial-gradient(ellipse at 0% 100%,#fff5d8 0%,transparent 42%),linear-gradient(145deg,#fff 35%,#f8faff 100%);
+ box-shadow:0 18px 55px #07152c2b,inset 0 1px 0 #ffffff;
+}
+.auth-page .auth-card::before, body:has(.login-wrap) .login-card::before, body.live-login-page .auth-panel::before {
+ content:''; position:absolute; z-index:-1; pointer-events:none; width:210px; height:210px; border-radius:50%; right:-125px; top:-120px; border:1px solid #0c166510; box-shadow:0 0 0 30px #0c166504,0 0 0 60px #0c166503;
+}
+.auth-page .auth-card:not(.auth-signup-card) > form, body:has(.login-wrap) .login-card > form {
+ flex:0 0 auto; justify-content:flex-start; gap:20px; padding:18px 0 0;
+}
+.login-fields, .auth-page .auth-card:not(.auth-signup-card) > form > .login-fields, body:has(.login-wrap) .login-card > form > .login-fields { margin:0; gap:20px; }
+.auth-page .auth-signup-card > form { flex:0 0 auto; align-content:start; }
+.auth-page .auth-card:not(.auth-signup-card) h2, body:has(.login-wrap) .login-card h2 { font-size:30px !important; margin:10px 0; }
+.auth-page .auth-card:not(.auth-signup-card) .auth-card-intro, body:has(.login-wrap) .login-card > p { margin:0; font-size:13px; line-height:1.65; }
+.auth-page .auth-card:not(.auth-signup-card) .input, body:has(.login-wrap) .login-card input { min-height:46px; background:#ffffffb8; }
+body:has(.login-wrap) .login-card > .eyebrow { margin:0; }
+body:has(.login-wrap) .login-card h2 { margin:10px 0 12px; }
+body:has(.login-wrap) .login-card form { gap:20px; }
+body.live-login-page .auth-panel > .auth-card { flex:0 0 auto; background:transparent !important; }
+body.live-login-page #signInForm:not(.hidden) { flex:0 0 auto; justify-content:flex-start; gap:16px; }
+body.live-login-page #registerForm:not(.hidden) { flex:0 0 auto; align-content:start; }
+body.live-login-page .auth-panel .auth-card > .mt-6 { margin-top:16px; }
+@media(min-width:901px) and (max-height:740px) {
+ .auth-page .auth-card:not(.auth-signup-card) > form, body:has(.login-wrap) .login-card > form { gap:14px; padding-top:14px; }
+ .login-fields, .auth-page .auth-card:not(.auth-signup-card) > form > .login-fields, body:has(.login-wrap) .login-card > form > .login-fields { gap:14px; }
+ .auth-page .auth-card:not(.auth-signup-card) h2, body:has(.login-wrap) .login-card h2 { font-size:28px !important; }
+ .auth-page .auth-card:not(.auth-signup-card) .input, body:has(.login-wrap) .login-card input { min-height:40px; }
+ body.live-login-page #signInForm:not(.hidden) { gap:8px; }
+}
+
+.login-fields > label { margin-top:0 !important; }
