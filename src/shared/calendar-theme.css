@@ -1,4 +1,5 @@
 /* Shared calendar surfaces and type across Admin, Org, and Student View. */
+:root { --csc-logo-blue: #071467; }
 :is(.main-calendar, .conference-room-calendar, .year-grid) {
   --line: #7b8da5;
 }
@@ -10,13 +11,13 @@
 }
 .main-calendar .month-cell { background: rgba(220,236,255,.24); }
 .main-calendar :is(.weekday-row, .calendar-weekdays) {
-  background: linear-gradient(90deg, rgba(8,24,51,.84), rgba(8,24,51,.59));
+  background: var(--csc-logo-blue);
 }
 .main-calendar :is(.weekday-row > div, .calendar-weekdays > b) {
   background: transparent;
   color: #fff;
 }
-.conference-room-calendar .week-head { background: linear-gradient(90deg, rgba(8,24,51,.84), rgba(8,24,51,.59)); }
+.conference-room-calendar .week-head { background: var(--csc-logo-blue); }
 .conference-room-calendar .week-head strong { color: #fff; }
 .conference-room-calendar .week-slot { background: rgba(220,236,255,.24); }
 .conference-room-calendar .week-slot.selected-day { background: rgba(180,210,255,.42); }
@@ -31,7 +32,7 @@
 .year-grid .mini-day { background: rgba(220,236,255,.24); }
 .year-grid .mini-day.empty { background: rgba(220,236,255,.08); }
 .year-grid .mini-month-title { padding: 3px 5px; border-radius: 5px; background: rgba(235,244,255,.9); }
-.year-grid .mini-weekdays { background: linear-gradient(90deg, rgba(8,24,51,.84), rgba(8,24,51,.59)); }
+.year-grid .mini-weekdays { background: var(--csc-logo-blue); }
 .year-grid .mini-month-title small { color: #344054; }
 .year-grid .mini-weekdays b { color: #fff; }
 .year-grid .mini-day.has-calendar-block { background: #ffe1e1; }
@@ -39,5 +40,8 @@
 :is(.org-header, .admin-org-header, .main-calendar, .conference-room-calendar, .year-grid) * {
   font-weight: 600 !important;
 }
-/* Preserve the original blue header divider and the slower photo cycle. */
+/* Match the header divider to the CSC logo and retain the slower photo cycle. */
 body::before { animation-duration: 96s; }
+
+:is(.org-header, .admin-org-header),
+.schedule-calendar-header:is(.org-header, .admin-org-header) { border-bottom-color: var(--csc-logo-blue); }
