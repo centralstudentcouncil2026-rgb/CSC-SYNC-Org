@@ -3,15 +3,15 @@ import { refreshNotifications } from "./services/notifications.js?v=20261021-not
 import { refreshConcerns } from "./services/concerns.js?v=20261021-concern-progress";
 import { refreshBookings } from "./services/bookings.js?v=20261021-notification-flow";
 import { route } from "./shared/ui.js";
-import { renderApp } from "./app.js?v=20261022-org-logout-cole";
-import { logout, restoreSavedLogin } from "./services/auth.js";
+import { renderApp } from "./app.js?v=20261022-idle";
+import { logout, restoreSavedLogin } from "./services/auth.js?v=20261022-idle";
 import { loadDatabaseState } from "./services/database.js?v=20261022-calendar-blocks";
 import { getState, setState, subscribe } from "./services/store.js";
 
 const root = document.querySelector("#app");
 
 // Opening SYNC from COLE is a fresh login, even if an older session was saved.
-if (window.location.hash === "#/login") logout();
+if (window.location.hash === "#/login" && performance.getEntriesByType("navigation")[0]?.type !== "reload") logout();
 
 let roomSession = "";
 let concernsSession = "";

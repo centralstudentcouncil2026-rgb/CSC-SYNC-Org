@@ -5,7 +5,7 @@ import { mountPersonalRoom } from "./shared/personal-room.js?v=20261022-viewer-c
 import { bindSchedulePopupColors } from "./shared/schedule-popups.js";
 import { supabaseRequest } from "./services/supabase.js";
 import { openOrganizationCalendarForm, renderOrganizationDashboard, bindOrganizationForms } from "./dashboards/organization.js?v=20261022-block-strips";
-import { loginWithSupabase, logout, signupWithSupabase } from "./services/auth.js";
+import { loginWithSupabase, logout, signupWithSupabase } from "./services/auth.js?v=20261022-idle";
 import { closeModal, navigate, route, setModal, escapeHtml } from "./shared/ui.js";
 import { bindFormDraft } from "./shared/form-drafts.js";
 import { resetDevState, setState, getState, currentAccount } from "./services/store.js";

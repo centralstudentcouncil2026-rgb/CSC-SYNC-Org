@@ -68,6 +68,7 @@ async function setAuthenticatedSession(auth, account, fallbackEmail) {
     ui: { ...state.ui, route: "/organization/calendar", toast: null, profileEditing: false, profileSaving: false },
   }));
   persistAuthState();
+  window.CSCIdleSession?.start();
 }
 
 export async function loginWithSupabase(formData) {
