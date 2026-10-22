@@ -3,7 +3,7 @@ import { captureFormView, captureSidePanelScroll, deferFormRender } from "./shar
 import { mountPersonalRoom } from "./shared/personal-room.js?v=20261022-viewer-contacts";
 import { bindSchedulePopupColors } from "./shared/schedule-popups.js";
 import { supabaseRequest } from "./services/supabase.js";
-import { renderOrganizationDashboard, bindOrganizationForms } from "./dashboards/organization.js?v=20261022-compact-detail";
+import { renderOrganizationDashboard, bindOrganizationForms } from "./dashboards/organization.js?v=20261022-title-first";
 import { loginWithSupabase, logout, signupWithSupabase } from "./services/auth.js";
 import { closeModal, navigate, route, setModal } from "./shared/ui.js";
 import { bindFormDraft } from "./shared/form-drafts.js";

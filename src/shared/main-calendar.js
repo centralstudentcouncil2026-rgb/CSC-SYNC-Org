@@ -1,9 +1,12 @@
 // Both dashboards share strip content and placement; role-specific actions stay in each dashboard.
+export function calendarScheduleLabel(event, owner) {
+  return `${event.title || 'Untitled schedule'} - ${owner?.organizationName || 'Organization'}`;
+}
+
 export function renderMainCalendarStrip(event, row, columnStart, columnEnd, lane, rowCount, owner, { escapeHtml, formatTime, color }) {
   const start = event.occurrenceFullStartsAt || event.startsAt;
   const end = event.occurrenceFullEndsAt || event.endsAt;
-  const organization = owner?.organizationName || "Organization";
-  const label = `${organization} - ${event.title}`;
+  const label = calendarScheduleLabel(event, owner);
   const status = event.hasPendingRevision ? "Change requested" : event.status;
   const details = `${label} | ${formatTime(start)}-${formatTime(end)} | ${status}`;
   return `<button class="month-span-chip ${color}" type="button"

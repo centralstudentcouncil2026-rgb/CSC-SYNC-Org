@@ -1,6 +1,6 @@
 import { calendarOrganizationOptions } from "../shared/calendar-organization-filter.js";
 import { renderOrganizerContact, mountOrganizerContacts } from "../shared/organizer-contact.js?v=20261022-dashboard-contact";
-import { renderMainCalendarStrip } from "../shared/main-calendar.js?v=20261021-org-strip-label";
+import { calendarScheduleLabel, renderMainCalendarStrip } from "../shared/main-calendar.js?v=20261022-title-first";
 import { CONFERENCE_SLOT_COUNT, renderRoomBookingCard } from "../shared/room-booking-card.js";
 import { loadNotificationTarget } from "../shared/notification-target.js";
 import { mapEvent, mapBooking } from "../services/database.js?v=20261022-owner-contact";
@@ -164,8 +164,8 @@ function eventChip(event) {
   const detailStartsAt = event.occurrenceFullStartsAt || event.startsAt;
   const detailEndsAt = event.occurrenceFullEndsAt || event.endsAt;
   return `
-    <button type="button" class="event-chip ${eventColorClass(event)}" data-event-detail="${event.id}" data-event-starts-at="${escapeHtml(detailStartsAt)}" data-event-ends-at="${escapeHtml(detailEndsAt)}" title="${escapeHtml(owner?.organizationName || "")}">
-      ${formatTime(event.startsAt)}-${formatTime(event.endsAt)} - ${escapeHtml(event.title)}
+    <button type="button" class="event-chip ${eventColorClass(event)}" data-event-detail="${event.id}" data-event-starts-at="${escapeHtml(detailStartsAt)}" data-event-ends-at="${escapeHtml(detailEndsAt)}" title="${escapeHtml(calendarScheduleLabel(event, owner))} | ${formatTime(detailStartsAt)}-${formatTime(detailEndsAt)}">
+      ${escapeHtml(calendarScheduleLabel(event, owner))}
     </button>
   `;
 }
@@ -211,7 +211,7 @@ function miniMonthCalendar(monthName, month, selected, events) {
             ? `<span class="mini-event-strips">${dayEvents.slice(0, 2).map((event) => {
                 const detailStartsAt = event.occurrenceFullStartsAt || event.startsAt;
                 const detailEndsAt = event.occurrenceFullEndsAt || event.endsAt;
-                return `<i class="${eventColorClass(event)}" data-event-detail="${event.id}" data-event-starts-at="${escapeHtml(detailStartsAt)}" data-event-ends-at="${escapeHtml(detailEndsAt)}">${formatTime(event.startsAt)} ${escapeHtml(event.title)}</i>`;
+                return `<i class="${eventColorClass(event)}" data-event-detail="${event.id}" data-event-starts-at="${escapeHtml(detailStartsAt)}" data-event-ends-at="${escapeHtml(detailEndsAt)}" title="${escapeHtml(calendarScheduleLabel(event, accountById(event.ownerAccountId)))}">${escapeHtml(calendarScheduleLabel(event, accountById(event.ownerAccountId)))}</i>`;
               }).join("")}${dayEvents.length > 2 ? "<em>+</em>" : ""}</span>`
             : ""
         }
