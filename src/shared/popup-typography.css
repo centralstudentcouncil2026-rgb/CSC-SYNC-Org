@@ -1,0 +1,57 @@
+/* One readable type scale for detail cards, editors and notification popups. */
+:is(.org-dashboard, .admin-shell, .student-dashboard) .modal-card {
+  font-size: 14px;
+  line-height: 1.5;
+}
+:is(.org-dashboard, .admin-shell, .student-dashboard) .modal-card.modal-card .modal-topline > :is(span, strong, h2),
+:is(.org-dashboard, .admin-shell, .student-dashboard) .modal-card .personal-room-detail-heading h2 {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.3;
+  text-transform: none;
+}
+:is(.org-dashboard, .admin-shell, .student-dashboard) .modal-card :is(.detail-list span, dt, form label, .personal-room-owner > span, .personal-room-category-badge) {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.3;
+}
+:is(.org-dashboard, .admin-shell, .student-dashboard) .modal-card :is(.detail-list strong, dd, .personal-room-owner > strong, .organizer-contact > strong) {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+:is(.org-dashboard, .admin-shell, .student-dashboard) .modal-card :is(p, .compact-text strong, .schedule-change-values p) {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+:is(.org-dashboard, .admin-shell, .student-dashboard) .modal-card .compact-text strong {
+  display: block;
+  overflow: visible;
+  -webkit-line-clamp: unset;
+  white-space: pre-wrap;
+}
+:is(.org-dashboard, .admin-shell, .student-dashboard) .modal-card :is(button, a.blue-pill, a.white-pill) {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+:is(.org-dashboard, .admin-shell, .student-dashboard) .modal-card :is(input, select, textarea) {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+:is(.org-dashboard, .admin-shell, .student-dashboard) .modal-card .organizer-contact-links {
+  display: grid;
+  grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr);
+  gap: 4px;
+}
+:is(.org-dashboard, .admin-shell, .student-dashboard) .modal-card .organizer-contact-links > :only-child { grid-column: 1 / -1; }
+@media (max-width: 480px) {
+  :is(.org-dashboard, .admin-shell, .student-dashboard) .modal-card .organizer-contact > strong {
+    max-width: 82px;
+    white-space: normal;
+    line-height: 1.3;
+  }
+  :is(.org-dashboard, .admin-shell, .student-dashboard) .modal-card .organizer-contact-links > a { padding-inline: 3px; }
+}
