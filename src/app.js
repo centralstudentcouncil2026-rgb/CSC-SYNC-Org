@@ -1,3 +1,4 @@
+import { renderAuthPage } from "./shared/auth-layout.js?v=20261022-trace-login";
 import { mountPresidentStatus, mountAdviserStatus } from "./shared/president-status.js?v=20261022-viewer-contacts";
 import { captureFormView, captureSidePanelScroll, deferFormRender } from "./shared/form-view.js?v=20261021-panel-scroll";
 import { mountPersonalRoom } from "./shared/personal-room.js?v=20261022-viewer-contacts";
@@ -5,7 +6,7 @@ import { bindSchedulePopupColors } from "./shared/schedule-popups.js";
 import { supabaseRequest } from "./services/supabase.js";
 import { openOrganizationCalendarForm, renderOrganizationDashboard, bindOrganizationForms } from "./dashboards/organization.js?v=20261022-block-strips";
 import { loginWithSupabase, logout, signupWithSupabase } from "./services/auth.js";
-import { closeModal, navigate, route, setModal } from "./shared/ui.js";
+import { closeModal, navigate, route, setModal, escapeHtml } from "./shared/ui.js";
 import { bindFormDraft } from "./shared/form-drafts.js";
 import { resetDevState, setState, getState, currentAccount } from "./services/store.js";
 
@@ -14,50 +15,32 @@ let activeToastKey = "";
 
 function renderLogin() {
   const toast = getState().ui.toast;
-  return `
-    <main class="entry-screen">
-      <section class="entry-card login-card">
-        <img class="entry-logo" src="./src/assets/csc-logo.png" alt="CSC S.Y.N.C. logo">
-        <div>
-          <h1>CSC S.Y.N.C.</h1>
-          <p>Systemized Year-round Network Calendar</p>
-        </div>
-        <form class="login-form" data-login-form>
-          <label>User Account<input class="input" name="userAccount" type="email" autocomplete="username" required></label>
-          <label>Password<input class="input" name="password" type="password" autocomplete="current-password" required></label>
-          <button class="blue-pill" type="submit">Login</button>
-        </form>
-        ${toast?.message ? `<p class="login-message ${toast.type === "error" ? "error" : "success"}">${toast.message}</p>` : ""}
-        <button class="white-pill" data-route="/signup">Create Organization Account</button>
-      </section>
-    </main>
-  `;
+  return renderAuthPage({ content: `
+    <form class="login-form" data-login-form>
+      <label>User account<input class="input" name="userAccount" type="email" autocomplete="username" required></label>
+      <label>Password<input class="input" name="password" type="password" autocomplete="current-password" required></label>
+      <button class="blue-pill" type="submit">Log in to dashboard</button>
+    </form>
+    ${toast?.message ? `<p class="login-message ${toast.type === "error" ? "error" : "success"}" role="${toast.type === "error" ? "alert" : "status"}">${escapeHtml(toast.message)}</p>` : ""}
+    <button class="white-pill" type="button" data-route="/signup">Create Organization Account</button>
+  ` });
 }
 
 function renderSignup() {
   const toast = getState().ui.toast;
-  return `
-    <main class="entry-screen">
-      <section class="entry-card login-card">
-        <img class="entry-logo" src="./src/assets/csc-logo.png" alt="CSC S.Y.N.C. logo">
-        <div>
-          <h1>Create Account</h1>
-          <p>Register a real CSC S.Y.N.C. organization account.</p>
-        </div>
-        <form class="login-form" data-signup-form>
-          <label>Officer name<input class="input" name="officerName" autocomplete="name" required></label>
-          <label>User account<input class="input" name="userAccount" type="email" autocomplete="username" required></label>
-          <label>Organization name<input class="input" name="organizationName" required></label>
-          <label>Phone number<input class="input" name="phone" autocomplete="tel" required></label>
-          <label>Password<input class="input" name="password" type="password" autocomplete="new-password" minlength="6" required></label>
-          <label>Confirm password<input class="input" name="confirmPassword" type="password" autocomplete="new-password" minlength="6" required></label>
-          <button class="blue-pill" type="submit">Sign Up</button>
-        </form>
-        ${toast?.message ? `<p class="login-message ${toast.type === "error" ? "error" : "success"}">${toast.message}</p>` : ""}
-        <button class="white-pill" data-route="/login">Back to Login</button>
-      </section>
-    </main>
-  `;
+  return renderAuthPage({ signup: true, content: `
+    <form class="login-form" data-signup-form>
+      <label>Officer name<input class="input" name="officerName" autocomplete="name" required></label>
+      <label>User account<input class="input" name="userAccount" type="email" autocomplete="username" required></label>
+      <label>Organization name<input class="input" name="organizationName" required></label>
+      <label>Phone number<input class="input" name="phone" type="tel" autocomplete="tel" required></label>
+      <label>Password<input class="input" name="password" type="password" autocomplete="new-password" minlength="6" required></label>
+      <label>Confirm password<input class="input" name="confirmPassword" type="password" autocomplete="new-password" minlength="6" required></label>
+      <button class="blue-pill" type="submit">Create Organization Account</button>
+    </form>
+    ${toast?.message ? `<p class="login-message ${toast.type === "error" ? "error" : "success"}" role="${toast.type === "error" ? "alert" : "status"}">${escapeHtml(toast.message)}</p>` : ""}
+    <button class="white-pill" type="button" data-route="/login">Back to Login</button>
+  ` });
 }
 
 function renderCurrentRoute(currentRoute) {
