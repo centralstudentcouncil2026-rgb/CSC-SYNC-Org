@@ -89,3 +89,28 @@ body:has(.auth-page)::before, body:has(.auth-page)::after, body:has(.login-wrap)
 }
 
 @media(min-width:901px) { .auth-page .auth-hero, body:has(.login-wrap) .login-wrap, body.live-login-page .auth-shell { padding-block:min(32px,4vh); } }
+
+/* Balance the content within the shared card instead of leaving a blank lower half. */
+.auth-page .auth-card, body:has(.login-wrap) .login-card, body.live-login-page .auth-panel { display:flex; flex-direction:column; justify-content:center; }
+.auth-page .auth-card > *, body:has(.login-wrap) .login-card > *, body.live-login-page .auth-panel > * { flex-shrink:0; }
+@media(min-width:901px) {
+ .auth-page .auth-hero, body:has(.login-wrap) .login-wrap, body.live-login-page .auth-shell { padding-block:16px; }
+ .auth-page .auth-card, body:has(.login-wrap) .login-card, body.live-login-page .auth-panel { min-height:0; height:min(640px,calc(100dvh - 32px)); }
+}
+@media(min-width:901px) and (max-height:740px) {
+ .auth-page .auth-card, body:has(.login-wrap) .login-card, body.live-login-page .auth-panel { padding:20px !important; }
+ .auth-page .auth-card h2, body:has(.login-wrap) .login-card h2, body.live-login-page #formTitle { font-size:25px !important; margin:6px 0; }
+ .auth-page .auth-card-intro, body:has(.login-wrap) .login-card > p { margin:0 0 12px; line-height:1.5; }
+ .auth-page .auth-card form { gap:8px; }
+ .auth-page .auth-card label { gap:4px; }
+ .auth-page .auth-card .input, body:has(.login-wrap) .login-card input, body.live-login-page .auth-input { min-height:36px; padding-block:7px; }
+ .auth-page .auth-card :is(.blue-pill,.white-pill), body.live-login-page :is(.submit-btn,.mode-btn,.role-btn,.signin-role-btn) { min-height:34px; padding-block:7px !important; }
+ .auth-page .auth-card > .white-pill { margin-top:10px; }
+ body.live-login-page .auth-panel > .mb-6, body.live-login-page .auth-card > .grid { margin-bottom:10px; }
+ body.live-login-page form > :not([hidden]) ~ :not([hidden]) { margin-top:8px; }
+ body.live-login-page #registerForm > * { margin-top:0; }
+ body.live-login-page .auth-panel .mt-6 { margin-top:8px; padding-top:8px; }
+ body.live-login-page #helperText { margin-top:0; }
+ .auth-page .auth-story h1, .login-story h1, .live-login-story h1 { font-size:34px; margin:12px 0; }
+ .auth-large-flame img, .large-flame img, .live-login-flame { height:90px; width:auto; }
+}
