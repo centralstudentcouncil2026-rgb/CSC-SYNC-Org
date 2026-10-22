@@ -111,6 +111,7 @@ function bindGlobalEvents(root) {
 
   root.querySelectorAll("[data-action='logout']").forEach((element) => {
     element.addEventListener("click", () => {
+      window.CSCLeavingPortal = true;
       logout();
       window.location.replace("https://centralstudentcouncil2026-rgb.github.io/CSC-SYNC-Org/cole.html");
     });

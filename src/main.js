@@ -3,7 +3,7 @@ import { refreshNotifications } from "./services/notifications.js?v=20261021-not
 import { refreshConcerns } from "./services/concerns.js?v=20261021-concern-progress";
 import { refreshBookings } from "./services/bookings.js?v=20261021-notification-flow";
 import { route } from "./shared/ui.js";
-import { renderApp } from "./app.js?v=20261022-idle";
+import { renderApp } from "./app.js?v=20261022-direct-cole";
 import { logout, restoreSavedLogin } from "./services/auth.js?v=20261022-idle";
 import { loadDatabaseState } from "./services/database.js?v=20261022-calendar-blocks";
 import { getState, setState, subscribe } from "./services/store.js";
@@ -18,6 +18,7 @@ let concernsSession = "";
 let notificationSession = "";
 let previousRoute = "";
 function paint() {
+  if (window.CSCLeavingPortal) return;
   const firstPaint = previousRoute === "";
   const activeRoute = route();
   const enteringRooms = activeRoute === "/organization/rooms" && previousRoute !== activeRoute;
