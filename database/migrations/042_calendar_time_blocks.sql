@@ -160,5 +160,8 @@ end; $$;
 revoke all on function public.save_calendar_schedule(jsonb,uuid,integer) from public,anon;
 grant execute on function public.save_calendar_schedule(jsonb,uuid,integer) to authenticated;
 revoke all on function public.lock_calendar_block(),public.guard_calendar_time() from public,anon,authenticated;
+-- Schedule data is written through the atomic RPC; status decisions retain their existing endpoint.
+revoke insert,update on public.events from public,anon,authenticated;
+grant update(status,version,updated_at) on public.events to authenticated;
 notify pgrst,'reload schema';
 commit;
