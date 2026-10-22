@@ -1,7 +1,6 @@
 export function renderAuthPage({ admin = false, signup = false, content, assetBase = './src/assets/' }) {
   const role = admin ? 'Administrator' : 'Organization';
   return `<main class="auth-page ${signup ? 'auth-page-signup' : ''}">
-    <header class="auth-topbar"><div class="auth-brand"><img class="auth-brand-logo" src="${assetBase}csc-logo.png" alt="Central Student Council logo"><div><strong>CSC S.Y.N.C.</strong><small>Systemized Year-round Network Calendar</small></div></div><span class="auth-portal-label">${role} portal</span></header>
     <div class="auth-content"><section class="auth-hero" aria-label="CSC SYNC account access">
       <section class="auth-story"><span class="auth-eyebrow">THE CENTRAL STUDENT COUNCIL</span>
         <h1>Every schedule.<br>One connected campus.</h1>

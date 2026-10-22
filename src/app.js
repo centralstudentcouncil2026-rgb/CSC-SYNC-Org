@@ -1,4 +1,4 @@
-import { renderAuthPage } from "./shared/auth-layout.js?v=20261022-trace-login";
+import { renderAuthPage } from "./shared/auth-layout.js?v=20261022-headerless-login";
 import { mountPresidentStatus, mountAdviserStatus } from "./shared/president-status.js?v=20261022-viewer-contacts";
 import { captureFormView, captureSidePanelScroll, deferFormRender } from "./shared/form-view.js?v=20261021-panel-scroll";
 import { mountPersonalRoom } from "./shared/personal-room.js?v=20261022-viewer-contacts";

@@ -1,13 +1,8 @@
 /* CSC Trace's campus-photo and welcome-card layout, adapted for CSC SYNC. */
-.auth-page { --auth-navy:#101e46; --auth-muted:#66738a; display:grid; grid-template-rows:auto minmax(0,1fr); height:100dvh; overflow:auto; color:var(--auth-navy); background:#e8f3ff; font-size:14px; }
-.auth-page .auth-topbar { display:flex; align-items:center; justify-content:space-between; gap:16px; min-height:76px; padding:10px max(24px,calc((100vw - 1220px)/2)); border-bottom:3px solid #1554d1; background:#f5c518; }
-.auth-brand { display:flex; align-items:center; gap:14px; min-width:0; }
-.auth-brand-logo { width:36px; height:52px; object-fit:contain; }
-.auth-brand strong { display:block; font-size:24px; font-weight:600; letter-spacing:1px; }
-.auth-brand small { display:block; font-size:11px; font-weight:400; margin-top:2px; }
-.auth-portal-label { padding:7px 12px; border:1px solid #101e462b; border-radius:999px; font-size:11px; font-weight:600; white-space:nowrap; }
-.auth-content { min-height:0; padding:28px 24px 18px; overflow:auto; }
-.auth-hero { display:grid; grid-template-columns:minmax(0,1fr) minmax(360px,430px); align-items:center; gap:55px; width:min(1220px,100%); min-height:min(620px,calc(100dvh - 146px)); margin:auto; padding:40px 48px; border-radius:18px; background:linear-gradient(90deg,rgba(8,24,51,.86),rgba(8,24,51,.6)),url('../assets/auth-campus-flags.jpg') center/cover; box-shadow:0 16px 50px #1022491a; }
+.auth-hero { flex-shrink: 0; }
+.auth-page { --auth-navy:#101e46; --auth-muted:#66738a; display:grid; grid-template-rows:minmax(0,1fr); height:100dvh; overflow:auto; color:var(--auth-navy); background:#e8f3ff; font-size:14px; }
+.auth-content { display:flex; flex-direction:column; min-height:0; padding:28px 24px 18px; overflow:auto; }
+.auth-hero { display:grid; grid-template-columns:minmax(0,1fr) minmax(360px,430px); align-items:center; gap:55px; width:min(1220px,100%); min-height:min(620px,calc(100dvh - 146px)); margin:auto auto 0; padding:40px 48px; border-radius:18px; background:linear-gradient(90deg,rgba(8,24,51,.86),rgba(8,24,51,.6)),url('../assets/auth-campus-flags.jpg') center/cover; box-shadow:0 16px 50px #1022491a; }
 .auth-story { min-width:0; color:white; }
 .auth-page .auth-eyebrow { display:block; font-size:10px; font-weight:600; letter-spacing:1.5px; line-height:1.6; }
 .auth-story .auth-eyebrow { color:#f6df9b; }
@@ -32,7 +27,7 @@
 .auth-page .auth-card .blue-pill:hover { background:#1c3467; }
 .auth-page .auth-card > .white-pill { margin-top:16px; border:1px solid #dfe3ec; background:white; color:#203866; }
 .auth-page .auth-card > .text-link { display:block; width:100%; margin-top:14px; padding:4px; color:#203866; font-size:12px; font-weight:600; }
-.auth-footer { margin:14px 0 0; color:#66738a; text-align:center; font-size:11px; font-weight:400; }
+.auth-footer { margin:14px 0 auto; color:#66738a; text-align:center; font-size:11px; font-weight:400; }
 .auth-page-signup .auth-hero { grid-template-columns:minmax(0,1fr) minmax(440px,560px); gap:36px; padding-block:28px; }
 .auth-page-signup .auth-card { padding:24px; }
 .auth-page-signup .auth-card-icon { float:right; margin:0 0 8px 12px; }
@@ -44,12 +39,6 @@
   .auth-page .auth-story h1 { font-size:34px; }
 }
 @media(max-width:760px) {
-  .auth-page .auth-topbar { min-height:66px; padding:8px 16px; gap:10px; }
-  .auth-brand { gap:9px; }
-  .auth-brand-logo { width:28px; height:43px; }
-  .auth-brand strong { font-size:19px; letter-spacing:.5px; }
-  .auth-brand small { max-width:190px; font-size:8px; line-height:1.4; }
-  .auth-portal-label { padding:6px 8px; font-size:9px; }
   .auth-content { padding:18px 12px 12px; }
   .auth-page .auth-hero { display:block; min-height:calc(100dvh - 124px); padding:28px 16px; border-radius:12px; }
   .auth-story { display:none; }
@@ -59,6 +48,4 @@
 @media(max-width:480px) {
   .auth-page-signup .auth-card form { grid-template-columns:minmax(0,1fr); }
   .auth-page .auth-card { padding:24px 20px; }
-  .auth-brand small { max-width:160px; }
-  .auth-portal-label { max-width:92px; white-space:normal; text-align:center; }
 }

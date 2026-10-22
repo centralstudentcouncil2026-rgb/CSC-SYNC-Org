@@ -3,35 +3,35 @@
   --line: #7b8da5;
 }
 :is(.main-calendar, .conference-room-calendar) {
-  background: rgba(255, 255, 255, .44);
+  background: rgba(210, 229, 255, .48);
   border-color: var(--line);
   backdrop-filter: blur(3px);
 }
 .main-calendar .month-cell {
-  background: rgba(255, 255, 255, .14);
+  background: rgba(220, 236, 255, .18);
 }
 .main-calendar :is(.weekday-row > div, .calendar-weekdays > b) {
-  background: rgba(255, 255, 255, .48);
+  background: rgba(219, 235, 255, .58);
 }
 .conference-room-calendar .week-head {
-  background: rgba(248, 251, 255, .42);
+  background: rgba(219, 235, 255, .58);
 }
 .conference-room-calendar .week-slot {
-  background: rgba(255, 255, 255, .14);
+  background: rgba(220, 236, 255, .18);
 }
 .conference-room-calendar .week-slot.selected-day {
   background: rgba(218, 232, 255, .32);
 }
 .conference-room-calendar .time-label { color: #344054; }
 .year-grid .mini-month {
-  background: rgba(255, 255, 255, .48);
+  background: rgba(219, 235, 255, .58);
   border-color: var(--line);
   backdrop-filter: blur(3px);
 }
 .year-grid .mini-month.active { background: rgba(222, 235, 255, .52); }
 .year-grid :is(.mini-calendar-grid, .mini-day) { border-color: var(--line); }
-.year-grid .mini-day { background: rgba(255, 255, 255, .14); }
-.year-grid .mini-day.empty { background: rgba(255, 255, 255, .06); }
+.year-grid .mini-day { background: rgba(220, 236, 255, .18); }
+.year-grid .mini-day.empty { background: rgba(220, 236, 255, .08); }
 .year-grid :is(.mini-month-title small, .mini-weekdays b) { color: #344054; }
 /* Keep blocked dates distinct on the lighter calendar surface. */
 .year-grid .mini-day.has-calendar-block { background: #ffe1e1; }
@@ -39,3 +39,8 @@
 :is(.org-header, .admin-org-header, .main-calendar, .conference-room-calendar, .year-grid) * {
   font-weight: 600 !important;
 }
+
+/* Four campus photos: a slower 96-second cycle, including softer changes. */
+body::before { animation-duration: 96s; }
+:is(.org-header, .admin-org-header).schedule-calendar-header,
+:is(.org-header, .admin-org-header) { border-bottom-color: #102b60; }
