@@ -17,8 +17,8 @@ function renderLogin() {
   const toast = getState().ui.toast;
   return renderAuthPage({ content: `
     <form class="login-form" data-login-form data-csc-account-scope="sync-org">
-      <label>User account<input class="input" name="userAccount" type="email" data-csc-username autocomplete="section-csc-sync-org username" required></label>
-      <label>Password<input class="input" name="password" type="password" data-csc-password autocomplete="section-csc-sync-org current-password" required></label>
+      <div class="login-fields"><label>User account<input class="input" name="userAccount" type="email" data-csc-username autocomplete="section-csc-sync-org username" required></label>
+      <label>Password<input class="input" name="password" type="password" data-csc-password autocomplete="section-csc-sync-org current-password" required></label></div>
       <button class="blue-pill" type="submit">Log in to dashboard</button>
     </form>
     ${toast?.message ? `<p class="login-message ${toast.type === "error" ? "error" : "success"}" role="${toast.type === "error" ? "alert" : "status"}">${escapeHtml(toast.message)}</p>` : ""}
