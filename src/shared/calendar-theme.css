@@ -2,62 +2,46 @@
 :is(.main-calendar, .conference-room-calendar, .year-grid) {
   --line: #7b8da5;
 }
+/* The existing campus image stays visible under a navy shade, without frosting. */
 :is(.main-calendar, .conference-room-calendar) {
-  background: rgba(22, 67, 145, .68);
+  background: linear-gradient(90deg, rgba(8,24,51,.84), rgba(8,24,51,.59));
   border-color: var(--line);
-  backdrop-filter: blur(3px);
+  backdrop-filter: none;
 }
-.main-calendar .month-cell {
-  background: rgba(45, 102, 205, .18);
-}
+.main-calendar .month-cell { background: transparent; }
 .main-calendar :is(.weekday-row > div, .calendar-weekdays > b) {
-  background: rgba(14, 51, 120, .62);
+  background: rgba(235,244,255,.9);
 }
-.conference-room-calendar .week-head {
-  background: rgba(14, 51, 120, .62);
-}
-.conference-room-calendar .week-slot {
-  background: rgba(45, 102, 205, .18);
-}
-.conference-room-calendar .week-slot.selected-day {
-  background: rgba(80, 135, 230, .44);
-}
-.conference-room-calendar .time-label { color: #fff; }
+.conference-room-calendar .week-head { background: rgba(235,244,255,.9); }
+.conference-room-calendar .week-slot { background: transparent; }
+.conference-room-calendar .week-slot.selected-day { background: rgba(201,220,255,.12); }
+.conference-room-calendar .time-label { color: #344054; background: rgba(235,244,255,.86); }
 .year-grid .mini-month {
-  background: rgba(14, 51, 120, .62);
+  background: linear-gradient(90deg, rgba(8,24,51,.84), rgba(8,24,51,.59));
   border-color: var(--line);
-  backdrop-filter: blur(3px);
+  backdrop-filter: none;
 }
-.year-grid .mini-month.active { background: rgba(32, 83, 170, .76); }
+.year-grid .mini-month.active { border-color: var(--blue); }
 .year-grid :is(.mini-calendar-grid, .mini-day) { border-color: var(--line); }
-.year-grid .mini-day { background: rgba(45, 102, 205, .18); }
-.year-grid .mini-day.empty { background: rgba(45, 102, 205, .08); }
-.year-grid :is(.mini-month-title small, .mini-weekdays b) { color: #fff; }
-/* Keep blocked dates distinct on the lighter calendar surface. */
+.year-grid .mini-day { background: transparent; }
+.year-grid .mini-day.empty { background: transparent; }
+.year-grid .mini-month-title { padding: 3px 5px; border-radius: 5px; background: rgba(235,244,255,.9); }
+.year-grid .mini-weekdays { background: rgba(235,244,255,.86); }
+.year-grid :is(.mini-month-title small, .mini-weekdays b) { color: #344054; }
+/* Restore dark numerals, with a small light backing over the shaded photo. */
+.main-calendar .month-cell:not(.today):not(.has-calendar-block) > .month-date-number,
+.year-grid .mini-day:not(.has-calendar-block) .mini-day-number {
+  color: var(--ink);
+  background: rgba(235,244,255,.9);
+  border-radius: 4px;
+  padding: 1px 4px;
+  width: fit-content;
+  justify-self: end;
+}
 .year-grid .mini-day.has-calendar-block { background: #ffe1e1; }
 :is(.org-header, .admin-org-header, .main-calendar, .conference-room-calendar, .year-grid),
 :is(.org-header, .admin-org-header, .main-calendar, .conference-room-calendar, .year-grid) * {
   font-weight: 600 !important;
 }
-
-/* Four campus photos: a slower 96-second cycle, including softer changes. */
+/* Preserve the original blue header divider and the slower photo cycle. */
 body::before { animation-duration: 96s; }
-
-
-/* White calendar dates and labels on the stronger transparent blue surface. */
-:is(.main-calendar, .conference-room-calendar),
-.year-grid .mini-month { color: #fff; }
-.main-calendar :is(.weekday-row > div, .calendar-weekdays > b, .month-date-number),
-.conference-room-calendar .week-head strong,
-.year-grid .mini-day-number { color: #fff; }
-.main-calendar .month-cell.today:not(.has-calendar-block) {
-  background: rgba(57, 117, 231, .6);
-  box-shadow: inset 0 0 0 2px #ffe08b;
-}
-/* Red blocked dates keep white numerals readable with a blue date badge. */
-.main-calendar .month-cell.has-calendar-block > .month-date-number,
-.year-grid .mini-day.has-calendar-block .mini-day-number {
-  background: #17418d;
-  border-radius: 4px;
-  padding: 1px 4px;
-}
