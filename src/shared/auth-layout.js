@@ -1,9 +1,9 @@
 export function renderAuthPage({ admin = false, signup = false, content, assetBase = './src/assets/' }) {
   const role = admin ? 'Administrator' : 'Organization';
   return `<main class="auth-page auth-page-with-back ${signup ? 'auth-page-signup' : ''}">
-    <a class="csc-return-guard" data-csc-portal-back href="https://centralstudentcouncil2026-rgb.github.io/CSC-SYNC-Org/cole.html" aria-label="Back to COLE dashboard"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 5-7 7 7 7M5 12h14"/></svg><span>CSC Websites</span></a>
+    
     <div class="auth-content"><section class="auth-hero" aria-label="CSC SYNC account access">
-      <section class="auth-story"><span class="auth-eyebrow">THE CENTRAL STUDENT COUNCIL</span>
+      <section class="auth-story"><a class="csc-return-guard" data-csc-portal-back href="https://centralstudentcouncil2026-rgb.github.io/CSC-SYNC-Org/cole.html" aria-label="Back to COLE dashboard"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 5-7 7 7 7M5 12h14"/></svg><span>CSC Websites</span></a><span class="auth-eyebrow">THE CENTRAL STUDENT COUNCIL</span>
         <h1>Every schedule.<br>One connected campus.</h1>
         <p>A shared space to plan activities, coordinate schedules, and keep our university community connected.</p>
         <div class="auth-large-flame"><img src="${assetBase}csc-logo.png" alt="" aria-hidden="true"></div>
