@@ -74,3 +74,18 @@ body:has(.auth-page)::before, body:has(.auth-page)::after, body:has(.login-wrap)
  .auth-page .auth-large-flame, body:has(.login-wrap) .large-flame, body.live-login-page .live-login-flame { margin:6px 0 10px; }
 }
 @media(prefers-reduced-motion:reduce) { html:has(.auth-page), html:has(.login-wrap), html:has(.live-login-page) { scroll-snap-type:none; } }
+
+/* One card size and inset across the account-access screens. */
+.auth-page .auth-card, body:has(.login-wrap) .login-card, body.live-login-page .auth-panel { box-sizing:border-box; width:100%; max-width:480px; min-height:640px; padding:28px !important; border:1px solid #e2e7ee; border-radius:16px; background:#fff; box-shadow:0 12px 35px #07152c26; }
+.auth-page .auth-card-icon, body:has(.login-wrap) .login-icon, .live-login-card-icon { display:none; }
+.auth-page .auth-card > .auth-eyebrow, body:has(.login-wrap) .login-card > .eyebrow, .live-login-page .auth-panel > .live-login-eyebrow { font-size:10px; line-height:1.5; letter-spacing:1.4px; }
+.auth-page .auth-card h2, body:has(.login-wrap) .login-card h2, body.live-login-page #formTitle { font-size:28px !important; line-height:1.2 !important; margin:10px 0; }
+@media(min-width:901px) {
+ .auth-page .auth-hero, body:has(.login-wrap) .login-wrap, body.live-login-page .auth-shell { display:grid !important; grid-template-columns:minmax(0,1fr) minmax(0,480px); }
+ .login-form-row { display:flex; align-items:center; justify-content:center; }
+}
+@media(max-width:900px) {
+ .auth-page .auth-card, body:has(.login-wrap) .login-card, body.live-login-page .auth-panel { max-width:480px; min-height:640px; padding:24px !important; }
+}
+
+@media(min-width:901px) { .auth-page .auth-hero, body:has(.login-wrap) .login-wrap, body.live-login-page .auth-shell { padding-block:min(32px,4vh); } }
